@@ -7,7 +7,6 @@ PROMPT="%F{green}%m%f %F{blue}%~%f $ "
 # vi mode
 bindkey -v
 KEYTIMEOUT=1
-zstyle ':completion:*' menu select
 zmodload zsh/complist
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'j' vi-down-line-or-history
