@@ -33,7 +33,7 @@ iwctl station wlan0 connect <Network SSID>
 
 If `wlan0` does not work, replace it with your WiFi adapter's name which you can find with `ip link`.
 
-If you've already installed the operating system and want to load the dotfiles, you can run the following:
+If you've already installed the operating system and want to load only the dotfiles, you can run the following:
 
 ```zsh
 cd ~
