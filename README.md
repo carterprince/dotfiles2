@@ -2,9 +2,22 @@
 
 electric boogaloo
 
+This is where I keep my dotfiles and a simple setup guide for future reference. The [install.sh](https://carterprince.us/install.sh) script on my website loads this repository -- basically [archinstall](https://archinstall.archlinux.page/) but it loads my personal config.
+
+## Overview
+
+List of software included:
+
+- Terminal emulator: [Alacritty](https://github.com/alacritty/alacritty)
+- Text editor: [Neovim](https://neovim.io/)
+- Desktop environment: [GNOME](https://www.gnome.org/) (with some packages gutted for minimalism)
+- Media player: [mpv](https://mpv.io)
+- Shell: [zsh](https://www.zsh.org/)
+- Web browser: [Chromium](https://www.chromium.org/Home/)
+
 ## Install
 
-From the Arch Linux ISO live environment, download and run the [install script](https://carterprince.us/install.sh) hosted on my website:
+From the Arch Linux ISO live environment (NOT on an installed system), download and run the [install script](https://carterprince.us/install.sh) hosted on my website:
 
 ```zsh
 curl -LO carterprince.us/install.sh && bash install.sh
