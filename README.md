@@ -17,7 +17,7 @@ List of software included:
 
 ## Install
 
-From the Arch Linux ISO live environment (NOT on an installed system), download and run the [install script](https://carterprince.us/install.sh) hosted on my website:
+From the [Arch Linux ISO live environment](https://wiki.archlinux.org/title/installation_guide#Prepare_an_installation_medium) (NOT on an installed system), download and run the [install script](https://carterprince.us/install.sh) hosted on my website:
 
 ```zsh
 curl -LO carterprince.us/install.sh && bash install.sh
