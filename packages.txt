@@ -1,0 +1,11 @@
+transmission-gtk
+adobe-source-han-sans-jp-fonts
+ttf-hack
+mpv-mpris
+zsh
+zsh-syntax-highlighting
+neofetch
+expac
+htop
+imagemagick
+xsel
