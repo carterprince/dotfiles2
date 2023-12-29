@@ -42,7 +42,7 @@ USER_PASSWORD=$(get_input "Enter $USER's password" "password")
 # list some packages to install, AUR packages work too
 NETWORKING="dhcpcd networkmanager"
 UCODE="intel-ucode" # replace with amd-ucode if using AMD
-MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman tealdeer zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop"
+MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman tealdeer zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
 PACKAGES="$NETWORKING $UCODE $MISC $GNOME" # this is what will be installed
 
