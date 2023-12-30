@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cp $HOME/Music/* $SABRENT/music/
+cp $HOME/Books/* $SABRENT/epub/
