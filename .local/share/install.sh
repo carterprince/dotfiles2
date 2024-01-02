@@ -13,20 +13,20 @@ if [[ $1 == "--debug" ]]; then
     set -x
 fi
 
-# function to get input with default
 get_input() {
     read -p "$1 (default: $2): " value
     echo "${value:-$2}"
 }
 
-MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman tealdeer zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git"
+HOSTNAME=$(get_input "Enter hostname" "desktop")
+
+# define some packages
+MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git libby-git"
 NETWORKING="dhcpcd networkmanager"
-UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')-ucode"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
+UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')-ucode"
 PACKAGES="$NETWORKING $UCODE $MISC $GNOME" # this is what will be installed
 
-# configuration with prompts
-HOSTNAME=$(get_input "Enter hostname" "desktop")
 TIMEZONE=$(get_input "Enter timezone" "America/New_York")
 
 # show the user their drives
@@ -131,9 +131,6 @@ initrd intel-ucode.img
 initrd /initramfs-linux.img
 options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 
-# recreate the initramfs image -- maybe we can skip this?
-# ch mkinitcpio -P
-
 # some services
 # dhcpcd, needed for ethernet
 ch systemctl enable dhcpcd
@@ -142,15 +139,14 @@ ch systemctl enable NetworkManager
 # gdm, for starting GNOME
 ch systemctl enable gdm
 
-# update tldr cache
-# I might remove this, I barely even use it
-ch-user "tldr -u"
-
 # install my dotfiles
 ch-user "git init"
 ch-user "git remote add origin https://github.com/carterprince/dotfiles2.git"
 ch-user "git fetch"
 ch-user "git checkout -f main"
+
+ch-user "git config --global user.email 'carteraprince@gmail.com'"
+ch-user "git config --global user.name 'Carter Prince'"
 
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
