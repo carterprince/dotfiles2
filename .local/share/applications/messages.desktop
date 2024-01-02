@@ -3,4 +3,4 @@ Type=Application
 Name=Google Messages
 GenericName=Google Messages
 Exec=xdg-open https://messages.google.com/web/conversations/3
-Icon=android-messages
+Icon=android-messages-desktop
