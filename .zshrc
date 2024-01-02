@@ -4,9 +4,9 @@
 
 PROMPT="%F{green}%m%f %F{blue}%~%f $ "
 
-[ -f $HOME/.cache/zsh/.histfile ] || touch $HOME/.cache/zsh/.histfile
-HISTFILE="$HOME/.cache/zsh/hist"
-HISTSAVE=100000000
+mkdir -p "$HOME/.cache/zsh" && touch "$HOME/.cache/zsh/history"
+HISTFILE="$HOME/.cache/zsh/history"
+SAVEHIST=100000000
 HISTSIZE=100000000
 HISTFILESIZE=100000000
 HISTTIMEFORMAT="%F %T "
@@ -36,6 +36,8 @@ alias yay="paru"
 alias bin="cd $HOME/.local/bin"
 alias src="cd $HOME/.local/src"
 alias ls="ls --color=yes"
+alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
+alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
 alias nvimconf="nvim $HOME/.config/nvim/init.vim"
 function e() {
     nvim $(find | grep "$@" | head -1)
