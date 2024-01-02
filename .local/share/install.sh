@@ -3,11 +3,6 @@
 # run this file from the Arch ISO with:
 # curl -LO carterprince.us/install.sh && bash install.sh
 
-MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman tealdeer zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git"
-NETWORKING="dhcpcd networkmanager"
-UCODE="intel-ucode" # replace with amd-ucode if using AMD
-GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
-PACKAGES="$NETWORKING $UCODE $MISC $GNOME" # this is what will be installed
 
 clear # for dramatic effect
 
@@ -23,6 +18,12 @@ get_input() {
     read -p "$1 (default: $2): " value
     echo "${value:-$2}"
 }
+
+MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman tealdeer zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git"
+NETWORKING="dhcpcd networkmanager"
+UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')-ucode"
+GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
+PACKAGES="$NETWORKING $UCODE $MISC $GNOME" # this is what will be installed
 
 # configuration with prompts
 HOSTNAME=$(get_input "Enter hostname" "desktop")
@@ -131,7 +132,7 @@ initrd /initramfs-linux.img
 options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 
 # recreate the initramfs image -- maybe we can skip this?
-ch mkinitcpio -P
+# ch mkinitcpio -P
 
 # some services
 # dhcpcd, needed for ethernet
@@ -154,6 +155,7 @@ ch-user "git checkout -f main"
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
 ch ln -sf /home/$USER/.config/chromium-policy.json /etc/chromium/policies/managed/chromium-policy.json
+ch git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USER/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim
 
 # set the user shell to zsh
 ch chsh -s /bin/zsh $USER
