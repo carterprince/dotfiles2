@@ -1,0 +1,76 @@
+#!/bin/bash
+
+uninstall() {
+    echo "Uninstalling $1..."
+    adb shell pm uninstall -k --user 0 "$1"
+    adb uninstall $1
+}
+
+# google play store
+# uninstall com.android.vending
+
+# retarded social media apps
+uninstall com.discord
+uninstall com.google.android.youtube
+uninstall com.google.android.apps.youtube.music
+uninstall com.twitter.android
+uninstall com.sec.android.app.sbrowser
+uninstall com.zhiliaoapp.musically # chinese spyware
+uninstall com.instagram.android
+uninstall com.facebook.katana
+uninstall com.facebook.orca
+uninstall com.reddit.frontpage
+uninstall com.spotify.music
+
+# BROWSERS
+uninstall com.microsoft.emmx
+uninstall com.microsoft.emmx.dev
+uninstall com.microsoft.emmx.canary
+
+uninstall com.android.chrome
+uninstall com.kiwibrowser.browser
+
+uninstall org.mozilla.firefox
+uninstall org.mozilla.fenix
+uninstall org.mozilla.firefox_beta
+uninstall org.mozilla.fennec_aurora
+uninstall org.mozilla.fennec_fdroid
+uninstall org.mozilla.klar
+uninstall org.mozilla.focus
+uninstall com.android.browser
+
+uninstall com.vivaldi.browser
+uninstall com.vivaldi.beta
+uninstall com.opera.browser
+uninstall com.opera.mini.native
+uninstall com.brave.browser
+uninstall com.duckduckgo.mobile.android
+
+uninstall com.amazon.appmanager
+uninstall com.amazon.mShop.android.shopping
+uninstall com.gramgames.mergedragons
+uninstall com.particlenews.newsbreak
+uninstall com.scopely.monopolygo
+uninstall com.tripledot.woodoku
+uninstall com.tripledot.solitaire
+uninstall net.supertreat.solitaire
+uninstall com.block.juggle
+uninstall in.playsimple.wordtrip
+uninstall com.dreamgames.royalmatch
+
+uninstall com.samsung.android.themestore
+uninstall com.sec.android.app.samsungapps
+uninstall com.microsoft.skydrive
+uninstall com.wavemarket.waplauncher
+uninstall com.samsung.gamedriver.sm8450
+uninstall com.samsung.android.game.gametools
+uninstall com.samsung.android.game.gos
+uninstall com.samsung.android.game.gamehome
+uninstall com.facebook.appmanager
+uninstall com.dti.folderlauncher
+
+uninstall com.att.dh
+uninstall com.att.personalcloud
+uninstall com.att.myWireless
+uninstall com.digitalturbine.android.apps.news.att
+
