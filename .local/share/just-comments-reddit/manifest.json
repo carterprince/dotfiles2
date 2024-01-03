@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Just Comments Reddit",
+  "version": "1.0",
+  "description": "Restrict access to Reddit except for comment pages",
+  "permissions": [
+    "*://*.reddit.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.reddit.com/*"],
+      "js": ["script.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

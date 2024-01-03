@@ -1,6 +1,7 @@
 {
   "ExtensionSettings": {
     "*": {
+      "allowed_types": ["user_script", "extension"],
       "installation_mode": "allowed"
     },
     "cjpalhdlnbpafiamejdnhcphjbkeiagm": {
