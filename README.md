@@ -2,7 +2,7 @@
 
 electric boogaloo
 
-This is where I keep my dotfiles and a simple setup guide for future reference. The [carterprince.us/install.sh](https://carterprince.us/install.sh) script on my website loads this repository -- basically [archinstall](https://archinstall.archlinux.page/) but it loads my personal config.
+This is where I keep my dotfiles and a simple setup guide for future reference. The [`carterprince.us/install.sh`](https://carterprince.us/install.sh) script on my website loads this repository -- basically [archinstall](https://archinstall.archlinux.page/) but it loads my personal config.
 
 ## Overview
 
