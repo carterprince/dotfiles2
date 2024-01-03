@@ -3,7 +3,6 @@
 # run this file from the Arch ISO with:
 # curl -LO carterprince.us/install.sh && bash install.sh
 
-
 clear # for dramatic effect
 
 set -e
@@ -151,7 +150,6 @@ ch-user "git config --global user.name 'Carter Prince'"
 
 # neovim plugins
 ch-user "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USER/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
-ch-user "git clone --depth 1 https://github.com/nvim-neorg/neorg /home/$USER/.local/share/nvim/site/pack/plugins/start/neorg"
 
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
