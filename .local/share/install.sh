@@ -23,9 +23,10 @@ HOSTNAME=$(get_input "Enter hostname" "desktop")
 # define some packages
 MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git libby-git zathura zathura-pdf-mupdf tesseract-data-eng gimp"
 NETWORKING="dhcpcd networkmanager"
+LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
 UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')-ucode"
-PACKAGES="$NETWORKING $UCODE $MISC $GNOME" # this is what will be installed
+PACKAGES="$NETWORKING $UCODE $MISC $LATEX $GNOME" # this is what will be installed
 
 TIMEZONE=$(get_input "Enter timezone" "America/New_York")
 
