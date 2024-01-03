@@ -33,6 +33,7 @@ bindkey '^H' backward-kill-word
 
 # aliases
 alias yay="paru"
+alias wget="curl -LO" # all my homies hate wget
 alias bin="cd $HOME/.local/bin"
 alias src="cd $HOME/.local/src"
 alias ls="ls --color=yes"
