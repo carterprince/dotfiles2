@@ -33,6 +33,7 @@ settings = {
   core = {
     user_name = "USERNAME_HERE";
     nick = "NICK_HERE";
+    timestamp_format = "%_I:%M %p";
   };
   "fe-text" = {
     actlist_sort = "refnum";
