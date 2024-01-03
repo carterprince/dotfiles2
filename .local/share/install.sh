@@ -21,7 +21,7 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git libby-git"
+MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git libby-git zathura zathura-pdf-mupdf tesseract-data-eng gimp"
 NETWORKING="dhcpcd networkmanager"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
 UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')-ucode"
@@ -148,10 +148,13 @@ ch-user "git checkout -f main"
 ch-user "git config --global user.email 'carteraprince@gmail.com'"
 ch-user "git config --global user.name 'Carter Prince'"
 
+# neovim plugins
+ch-user "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USER/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
+ch-user "git clone --depth 1 https://github.com/nvim-neorg/neorg /home/$USER/.local/share/nvim/site/pack/plugins/start/neorg"
+
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
 ch ln -sf /home/$USER/.config/chromium-policy.json /etc/chromium/policies/managed/chromium-policy.json
-ch git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USER/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim
 
 # set the user shell to zsh
 ch chsh -s /bin/zsh $USER
