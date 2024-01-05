@@ -20,7 +20,7 @@ List of software included:
 From the [Arch Linux ISO live environment](https://wiki.archlinux.org/title/installation_guide#Prepare_an_installation_medium) (NOT on an installed system), download and run the [install script](https://carterprince.us/install.sh) hosted on my website:
 
 ```zsh
-curl -LO carterprince.us/install.sh && bash install.sh
+curl -LO carterprince.us/install.sh && sh install.sh
 ```
 
 If you have a working ethernet connection, the above command should work immediately. If you do not have access to an ethernet connection, you need to connect to WiFi using `iwctl`:
