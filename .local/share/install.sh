@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # run this file from the Arch ISO with:
-# curl -LO carterprince.us/install.sh && bash install.sh
+# curl -LO carterprince.us/install.sh && sh install.sh
 
 clear # for dramatic effect
 
