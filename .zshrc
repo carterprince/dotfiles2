@@ -56,6 +56,13 @@ function e() {
 function libby-push() {
     libby "$@" && adbsync push $HOME/Books/ /sdcard/Books/
 }
+function uninstall() {
+    echo "Uninstalling $1..."
+    adb shell pm uninstall -k --user 0 "$1"
+    adb uninstall $1
+}
 
 # plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.ls_colors
+source $HOME/.credentials
