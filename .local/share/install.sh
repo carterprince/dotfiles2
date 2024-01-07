@@ -43,8 +43,8 @@ SWAP="${DISK}${PARTITION_PREFIX}2"
 ROOT="${DISK}${PARTITION_PREFIX}3"
 
 ROOT_PASSWORD=$(get_input "Enter root password" "password")
-USER=$(get_input "Enter user" "user")
-USER_PASSWORD=$(get_input "Enter $USER's password" "password")
+USERNAME=$(get_input "Enter user" "user")
+USER_PASSWORD=$(get_input "Enter $USERNAME's password" "password")
 
 # partition the disks
 parted $DISK --script -- mklabel gpt mkpart ESP fat32 1MiB 513MiB set 1 esp on mkpart primary linux-swap 513MiB 32513MiB mkpart primary 32513MiB 100%
@@ -86,7 +86,7 @@ ch() {
     arch-chroot /mnt "$@"
 }
 ch-user() {
-    ch su - $USER -c "$@"
+    ch su - $USERNAME -c "$@"
 }
 
 # set the timezone
@@ -111,12 +111,12 @@ sed -i "s/#Color/Color/" /mnt/etc/pacman.conf
 echo -e "$ROOT_PASSWORD\n$ROOT_PASSWORD" | ch passwd
 
 # add the user, set the user password
-ch useradd -m $USER
-echo -e "$USER_PASSWORD\n$USER_PASSWORD" | ch passwd $USER
+ch useradd -m $USERNAME
+echo -e "$USER_PASSWORD\n$USER_PASSWORD" | ch passwd $USERNAME
 
 # add user to sudoers
 mkdir -p /mnt/etc/sudoers.d
-echo "$USER ALL=(ALL) NOPASSWD: ALL" | tee /mnt/etc/sudoers.d/00_$USER
+echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | tee /mnt/etc/sudoers.d/00_$USERNAME
 
 # install paru
 URL=$(curl -s https://api.github.com/repos/Morganamilo/paru/releases/latest | grep "x86" | cut -d : -f 2,3 | tr -d \" | tail -1 | awk '{$1=$1};1')
@@ -153,14 +153,14 @@ ch-user "git config --global user.email 'carteraprince@gmail.com'"
 ch-user "git config --global user.name 'Carter Prince'"
 
 # neovim plugins
-ch-user "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USER/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
+ch-user "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
 
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
-ch ln -sf /home/$USER/.config/chromium-policy.json /etc/chromium/policies/managed/chromium-policy.json
+ch ln -sf /home/$USERNAME/.config/chromium-policy.json /etc/chromium/policies/managed/chromium-policy.json
 
 # set the user shell to zsh
-ch chsh -s /bin/zsh $USER
+ch chsh -s /bin/zsh $USERNAME
 
 reboot
 # btw, you may need to reboot again for chromium and some things to start properly
