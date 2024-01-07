@@ -85,7 +85,8 @@ genfstab -U /mnt >> /mnt/etc/fstab
 ch() {
     arch-chroot /mnt "$@"
 }
-ch-user() {
+
+chuser() {
     ch su - $USERNAME -c "$@"
 }
 
