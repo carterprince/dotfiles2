@@ -44,6 +44,7 @@ ROOT_PASSWORD=$(get_input "Enter root password" "password")
 USER=$(get_input "Enter user" "user")
 USER_PASSWORD=$(get_input "Enter $USER's password" "password")
 
+# run as user
 ch-user() { ch su - $USER -c "$@"; }
 
 # partition the disks
