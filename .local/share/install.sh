@@ -24,10 +24,10 @@ MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
-UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')"
-PACKAGES="$NETWORKING $UCODE-ucode $MISC $LATEX $GNOME" # this is what will be installed
+CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
+PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME" # this is what will be installed
 
-TIMEZONE=$(get_input "Enter timezone" "America/New_York")
+TIMEZONE=$(curl -s http://ipinfo.io/timezone)
 
 # show the user their drives
 fdisk -l
@@ -127,7 +127,7 @@ ch-user "paru -S --noconfirm --needed $PACKAGES"
 ch bootctl install
 echo "title Arch Linux
 linux /vmlinuz-linux
-initrd $UCODE-ucode.img
+initrd $CHIPSET-ucode.img
 initrd /initramfs-linux.img
 options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 
