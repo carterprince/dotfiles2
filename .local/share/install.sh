@@ -126,7 +126,7 @@ tar -xvf /mnt/tmp/paru.tar.zst paru --to-stdout > /mnt/usr/bin/paru
 chmod +x /mnt/usr/bin/paru
 
 # install list of packages defined above
-ch-user "paru -S --noconfirm --needed $PACKAGES"
+chuser "paru -S --noconfirm --needed $PACKAGES"
 
 # install the bootloader
 ch bootctl install
@@ -145,16 +145,16 @@ ch systemctl enable NetworkManager
 ch systemctl enable gdm
 
 # install my dotfiles
-ch-user "git init"
-ch-user "git remote add origin https://github.com/carterprince/dotfiles2.git"
-ch-user "git fetch"
-ch-user "git checkout -f main"
+chuser "git init"
+chuser "git remote add origin https://github.com/carterprince/dotfiles2.git"
+chuser "git fetch"
+chuser "git checkout -f main"
 
-ch-user "git config --global user.email 'carteraprince@gmail.com'"
-ch-user "git config --global user.name 'Carter Prince'"
+chuser "git config --global user.email 'carteraprince@gmail.com'"
+chuser "git config --global user.name 'Carter Prince'"
 
 # neovim plugins
-ch-user "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
+chuser "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
 
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
