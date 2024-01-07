@@ -20,7 +20,7 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git libby-git zathura zathura-pdf-mupdf tesseract-data-eng gimp"
+MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp"
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
@@ -127,7 +127,7 @@ ch-user "paru -S --noconfirm --needed $PACKAGES"
 ch bootctl install
 echo "title Arch Linux
 linux /vmlinuz-linux
-initrd intel-ucode.img
+initrd $UCODE-ucode.img
 initrd /initramfs-linux.img
 options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 
