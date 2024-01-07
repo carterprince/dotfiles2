@@ -12,10 +12,9 @@ if [[ $1 == "--debug" ]]; then
     set -x
 fi
 
-get_input() {
-    read -p "$1 (default: $2): " value
-    echo "${value:-$2}"
-}
+get_input() { read -p "$1 (default: $2): " value; echo "${value:-$2}"; }
+ch() { arch-chroot /mnt "$@"; }
+ch-user() { ch su - $USER -c "$@"; }
 
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
@@ -81,9 +80,6 @@ cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 # generate /etc/fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
-# set up a function to make this part faster
-ch() { arch-chroot /mnt "$@"; }
-ch-user() { ch su - $USER -c "$@" ; }
 
 # set the timezone
 ch ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
