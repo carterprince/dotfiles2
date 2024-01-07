@@ -82,8 +82,12 @@ cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # set up a function to make this part faster
-ch() { arch-chroot /mnt "$@"; }
-ch-user() { ch su - $USER -c "$@" ; }
+ch() {
+    arch-chroot /mnt "$@"
+}
+ch-user() {
+    ch su - $USER -c "$@"
+}
 
 # set the timezone
 ch ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
