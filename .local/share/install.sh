@@ -12,8 +12,10 @@ if [[ $1 == "--debug" ]]; then
     set -x
 fi
 
-get_input() { read -p "$1 (default: $2): " value; echo "${value:-$2}"; }
-ch() { arch-chroot /mnt "$@"; }
+get_input() {
+    read -p "$1 (default: $2): " value
+    echo "${value:-$2}"
+}
 
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
@@ -22,8 +24,8 @@ MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
-CHIPSET=$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')
-PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME" # this is what will be installed
+UCODE="$(get_input 'Enter CPU manufacturer (intel, amd)' 'intel')"
+PACKAGES="$NETWORKING $UCODE-ucode $MISC $LATEX $GNOME" # this is what will be installed
 
 TIMEZONE=$(get_input "Enter timezone" "America/New_York")
 
@@ -43,9 +45,6 @@ ROOT="${DISK}${PARTITION_PREFIX}3"
 ROOT_PASSWORD=$(get_input "Enter root password" "password")
 USER=$(get_input "Enter user" "user")
 USER_PASSWORD=$(get_input "Enter $USER's password" "password")
-
-# run as user
-ch-user() { ch su - $USER -c "$@"; }
 
 # partition the disks
 parted $DISK --script -- mklabel gpt mkpart ESP fat32 1MiB 513MiB set 1 esp on mkpart primary linux-swap 513MiB 32513MiB mkpart primary 32513MiB 100%
@@ -82,6 +81,9 @@ cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 # generate /etc/fstab
 genfstab -U /mnt >> /mnt/etc/fstab
 
+# set up a function to make this part faster
+ch() { arch-chroot /mnt "$@"; }
+ch-user() { ch su - $USER -c "$@" ; }
 
 # set the timezone
 ch ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
@@ -125,7 +127,7 @@ ch-user "paru -S --noconfirm --needed $PACKAGES"
 ch bootctl install
 echo "title Arch Linux
 linux /vmlinuz-linux
-initrd $CHIPSET-ucode.img
+initrd $UCODE-ucode.img
 initrd /initramfs-linux.img
 options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 
