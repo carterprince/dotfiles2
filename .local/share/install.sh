@@ -14,7 +14,6 @@ fi
 
 get_input() { read -p "$1 (default: $2): " value; echo "${value:-$2}"; }
 ch() { arch-chroot /mnt "$@"; }
-ch-user() { ch su - $USER -c "$@"; }
 
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
@@ -44,6 +43,8 @@ ROOT="${DISK}${PARTITION_PREFIX}3"
 ROOT_PASSWORD=$(get_input "Enter root password" "password")
 USER=$(get_input "Enter user" "user")
 USER_PASSWORD=$(get_input "Enter $USER's password" "password")
+
+ch-user() { ch su - $USER -c "$@"; }
 
 # partition the disks
 parted $DISK --script -- mklabel gpt mkpart ESP fat32 1MiB 513MiB set 1 esp on mkpart primary linux-swap 513MiB 32513MiB mkpart primary 32513MiB 100%
