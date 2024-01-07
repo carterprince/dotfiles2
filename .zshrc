@@ -61,6 +61,9 @@ function uninstall() {
     adb shell pm uninstall -k --user 0 "$1"
     adb uninstall $1
 }
+function note() {
+    nvim "$(date +'%Y-%M-%d_%_I:%M_%p').md"
+}
 
 # plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
