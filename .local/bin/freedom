@@ -1,0 +1,34 @@
+#!/bin/bash
+
+internet() {
+    for interface in /sys/class/net/*; do sudo ip link set "$(basename $interface)" $1; done
+}
+
+case "$1" in
+    down)
+	shift
+	internet down
+	printf "turning internet off"
+	if [ $# -ne 0 ]; then
+	    printf " for $1 seconds\n"
+	    sleep $1
+	    echo "turning internet on"
+	    internet up
+	else
+	    echo
+	fi
+	;;
+    up)
+	shift
+	internet up
+	printf "turning internet on"
+	if [ $# -ne 0 ]; then
+	    printf " for $1 seconds\n"
+	    sleep $1
+	    echo "turning internet off"
+	    internet down
+	else
+	    echo
+	fi
+	;;
+esac
