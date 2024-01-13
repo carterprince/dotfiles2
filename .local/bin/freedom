@@ -5,20 +5,7 @@ internet() {
 }
 
 case "$1" in
-    down)
-	shift
-	internet down
-	printf "turning internet off"
-	if [ $# -ne 0 ]; then
-	    printf " for $1 seconds\n"
-	    sleep $1
-	    echo "turning internet on"
-	    internet up
-	else
-	    echo
-	fi
-	;;
-    up)
+    off)
 	shift
 	internet up
 	printf "turning internet on"
@@ -27,6 +14,19 @@ case "$1" in
 	    sleep $1
 	    echo "turning internet off"
 	    internet down
+	else
+	    echo
+	fi
+	;;
+    *)
+	shift
+	internet down
+	printf "turning internet off"
+	if [ $# -ne 0 ]; then
+	    printf " for $1 seconds\n"
+	    sleep $1
+	    echo "turning internet on"
+	    internet up
 	else
 	    echo
 	fi
