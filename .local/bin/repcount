@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# requires alsa-utils
+
+# time between reps in seconds
+[ $# -eq 0 ] && INTERVAL=60 || INTERVAL=$1
+
+while true; do
+        read -p "Press enter when finished with rep..."
+        echo "Waiting $INTERVAL seconds..." && sleep $INTERVAL
+	paplay /usr/share/sounds/alsa/Noise.wav
+done
