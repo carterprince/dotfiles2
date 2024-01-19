@@ -16,5 +16,6 @@
       "installation_mode": "normal_installed",
       "update_url": "https://clients2.google.com/service/update2/crx"
     }
-  }
+  },
+  "NewTabPageLocation": "https://leetcode.com/studyplan/leetcode-75/"
 }
