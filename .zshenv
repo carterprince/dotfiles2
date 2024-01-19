@@ -10,5 +10,5 @@ export MANROFFOPT="-P -c"
 export LIBBY_DIR="$HOME/Books"
 
 export BROWSER="chromium"
-export TERMINAL="alacritty"
+export TERMINAL="st"
 export EDITOR="nvim"

@@ -5,6 +5,17 @@ internet() {
 }
 
 case "$1" in
+    hosts)
+	[ -f $HOME/.local/share/hosts-orig ] || cp /etc/hosts $HOME/.local/share/hosts-orig
+	[ -f $HOME/.local/share/hosts ] || curl -sL https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-gambling-porn-social/hosts > $HOME/.local/share/hosts
+	sudo cp $HOME/.local/share/hosts-orig /etc/hosts
+
+	cat $HOME/.local/share/hosts | sudo tee -a /etc/hosts > /dev/null
+	echo "0.0.0.0 discord.com" | sudo tee -a /etc/hosts > /dev/null
+	echo "0.0.0.0 i.ytimg.com" | sudo tee -a /etc/hosts > /dev/null
+	echo "0.0.0.0 twitter.com" | sudo tee -a /etc/hosts > /dev/null
+	echo "0.0.0.0 x.com" | sudo tee -a /etc/hosts > /dev/null
+	;;
     off)
 	shift
 	internet up

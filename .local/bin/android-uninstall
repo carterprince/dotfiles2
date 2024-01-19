@@ -28,6 +28,7 @@ uninstall com.microsoft.emmx.dev
 uninstall com.microsoft.emmx.canary
 
 uninstall com.android.chrome
+uninstall org.chromium.chrome
 uninstall com.kiwibrowser.browser
 
 uninstall org.mozilla.firefox
@@ -73,4 +74,3 @@ uninstall com.att.dh
 uninstall com.att.personalcloud
 uninstall com.att.myWireless
 uninstall com.digitalturbine.android.apps.news.att
-
