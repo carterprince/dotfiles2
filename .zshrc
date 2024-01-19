@@ -2,6 +2,8 @@
 # carter's .zshrc
 #
 
+schedule
+
 PROMPT="%F{green}%m%f %F{blue}%~%f $ "
 
 mkdir -p "$HOME/.cache/zsh" && touch "$HOME/.cache/zsh/history"
@@ -40,6 +42,7 @@ alias ls="ls --color=yes"
 alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
 alias nvimconf="nvim $HOME/.config/nvim/init.vim"
+alias grep='grep --color=yes'
 function git-login() {
     git config --global user.email "carteraprince@gmail.com"
     git config --global user.name "Carter Prince"
@@ -64,8 +67,11 @@ function uninstall() {
 function note() {
     nvim "$(date +'%Y-%M-%d_%_I:%M_%p').md"
 }
+function fd() {
+    find | grep -i "$@"
+}
 
 # plugins
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.ls_colors
-source $HOME/.credentials
+#source $HOME/.ls_colors
+#source $HOME/.credentials

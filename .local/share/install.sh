@@ -20,7 +20,7 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim alacritty curl git chromium mpv mpv-mpris nsxiv xsel ttf-hack adobe-source-han-sans-jp-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp"
+MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel ttf-monaco adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp playerctl"
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
@@ -153,8 +153,8 @@ chuser "git checkout -f main"
 chuser "git config --global user.email 'carteraprince@gmail.com'"
 chuser "git config --global user.name 'Carter Prince'"
 
-# neovim plugins
-chuser "git clone --depth 1 https://github.com/ellisonleao/gruvbox.nvim /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/gruvbox.nvim"
+# vim plugins
+chuser "git clone --depth 1 https://github.com/jiangmiao/auto-pairs /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/auto-pairs"
 
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed

@@ -8,6 +8,7 @@ set sw=4
 set noswapfile
 set autoread
 set undofile
+set nofoldenable
 set undodir=~/.config/nvim/undo/
 
 nnoremap L ciw
@@ -17,4 +18,4 @@ nnoremap <leader>q :q!<CR>
 nnoremap <leader>w :w!<CR>
 nnoremap gx :!xdg-open <C-R><C-A><CR><Esc>
 
-colorscheme gruvbox
+colorscheme habamax
