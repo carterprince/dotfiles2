@@ -3,13 +3,18 @@ let mapleader=","
 set clipboard+=unnamedplus
 
 set number
-set sw=4
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 
 set noswapfile
 set autoread
 set undofile
 set nofoldenable
 set undodir=~/.config/nvim/undo/
+
+
 
 nnoremap L ciw
 nnoremap K :nohlsearch<CR><Esc>
