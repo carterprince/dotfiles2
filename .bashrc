@@ -5,7 +5,9 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[38;5;75m\][\w]\[\033[00m\] \[\033[38;5;141m\]\$(git branch 2>/dev/null | grep '^*' | colrm 1 2)\[\033[00m\] \$ "
+schedule
+
+PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[38;5;75m\][\w]\[\033[00m\] \[\033[00m\]\$ "
 
 set -o vi
 
