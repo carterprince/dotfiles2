@@ -1,48 +1,48 @@
 #!/bin/env python3
 
+print("\033[?1004h> ", end='')
 import sys
+sys.stdout.flush()
+
 import os
 import tty
-import termios
-import webbrowser
 
-def input_new(prompt=""):
+def input_new():
     fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
+    tty.setcbreak(fd)
 
-    try:
-        tty.setcbreak(fd)
-        sys.stdout.write(prompt)
-        sys.stdout.flush()
-        input_str = ""
-        while True:
-            ch = sys.stdin.read(1)
-            if ch == '\x1b':  # Escape key
-                raise KeyboardInterrupt
-            elif ch == '\n':  # Enter key
-                break
-            else:
-                input_str += ch
-                sys.stdout.write(ch)
-                sys.stdout.flush()
-        return input_str
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    input_str = ""
+    while True:
+        ch = sys.stdin.read(1)
+        if ch == '\x1b':
+            exit(0)
+        elif ch == '\n':
+            break
+        elif ch == '\x1b':
+            next_char = sys.stdin.read(1)
+            if next_char == '[':
+                focus_event = sys.stdin.read(1)
+                if focus_event == 'O':
+                    exit(0)
+        else:
+            input_str += ch
+            sys.stdout.write(ch)
+            sys.stdout.flush()
+
+    return input_str
 
 def open_browser(link):
     os.system(f"setsid -f $BROWSER \"{link}\" &")
 
-# Example usage
-try:
-    action = input_new("action: ").lower()
+def run_command(command):
+    os.system(f"setsid -f sh -c \"{command}\" &")
 
-    if action in ["cal", "calendar"]: open_browser("https://uga.view.usg.edu/d2l/le/calendar/6637")
-    elif action in ["1730", "systems"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3056087/Home")
-    elif action in ["odin"]: os.system("$TERMINAL -e ssh -q cap71920@odin.cs.uga.edu")
-    elif action in ["2670", "theory"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3066852/Home")
-    elif action in ["grafstate", "graf"]: open_browser("https://grafstate.com/shell")
-    elif action in ["2720", "data", "datastructures"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3061504/Home")
-    else: open_browser(f"https://www.google.com/search?q={action.replace(' ', '+')}")
+action = input_new().lower()
 
-except KeyboardInterrupt:
-    exit(0)
+if action in ["cal", "calendar"]: open_browser("https://uga.view.usg.edu/d2l/le/calendar/6637")
+elif action in ["1730", "systems"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3056087/Home")
+elif action in ["odin"]: run_command("$TERMINAL -e ssh -q cap71920@odin.cs.uga.edu")
+elif action in ["2670", "theory"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3066852/Home")
+elif action in ["grafstate", "graf"]: open_browser("https://grafstate.com/shell")
+elif action in ["2720", "data", "datastructures"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3061504/Home")
+else: open_browser(f"https://www.google.com/search?q={action.replace(' ', '+')}")
