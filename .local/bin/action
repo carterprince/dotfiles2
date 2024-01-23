@@ -1,9 +1,9 @@
 #!/bin/env python3
 
-print("\033[?1004h> ", end='')
-import sys
-sys.stdout.flush()
+print("\033[?1004h> ", end='', flush=True)
 
+import sys
+import urllib.parse
 import os
 import tty
 
@@ -14,20 +14,19 @@ def input_new():
     input_str = ""
     while True:
         ch = sys.stdin.read(1)
-        if ch == '\x1b':
+        if ch == '\x1b':  # ESC key to exit
             exit(0)
-        elif ch == '\n':
+        elif ch == '\n':  # Enter key to finish input
             break
-        elif ch == '\x1b':
-            next_char = sys.stdin.read(1)
-            if next_char == '[':
-                focus_event = sys.stdin.read(1)
-                if focus_event == 'O':
-                    exit(0)
+        elif ch in ('\x08', '\x7f'):  # Handle backspaces
+            if len(input_str) > 0:
+                input_str = input_str[:-1]  # Remove last character
+                sys.stdout.write('\b \b')  # Move cursor back, erase last character, move cursor back again
         else:
             input_str += ch
             sys.stdout.write(ch)
-            sys.stdout.flush()
+
+        sys.stdout.flush()
 
     return input_str
 
@@ -45,4 +44,5 @@ elif action in ["odin"]: run_command("$TERMINAL -e ssh -q cap71920@odin.cs.uga.e
 elif action in ["2670", "theory"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3066852/Home")
 elif action in ["grafstate", "graf"]: open_browser("https://grafstate.com/shell")
 elif action in ["2720", "data", "datastructures"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3061504/Home")
-else: open_browser(f"https://www.google.com/search?q={action.replace(' ', '+')}")
+elif action in ["groupme"]: open_browser("https://web.groupme.com/chats")
+else: open_browser(f"https://www.google.com/search?q={urllib.parse.quote_plus(action)}")
