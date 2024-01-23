@@ -45,4 +45,6 @@ elif action in ["2670", "theory"]: open_browser("https://uga.view.usg.edu/d2l/le
 elif action in ["grafstate", "graf"]: open_browser("https://grafstate.com/shell")
 elif action in ["2720", "data", "datastructures"]: open_browser("https://uga.view.usg.edu/d2l/le/content/3061504/Home")
 elif action in ["groupme"]: open_browser("https://web.groupme.com/chats")
+elif action in ["sdn", "shutdown", "poweroff", "power off"]: run_command("sudo poweroff")
+elif action in ["leetcode", "leet"]: open_browser("https://leetcode.com/")
 else: open_browser(f"https://www.google.com/search?q={urllib.parse.quote_plus(action)}")
