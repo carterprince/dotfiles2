@@ -20,10 +20,10 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel ttf-monaco adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman zsh dash dashbinsh zsh-syntax-highlighting imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp playerctl reflector cronie"
+MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel ttf-monaco adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp playerctl reflector cronie jdk-openjdk"
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
-GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome" # more minimal GNOME install
+GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome gnome-shell-extension-stealmyfocus-git" # more minimal GNOME install
 CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
 PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME" # this is what will be installed
 
@@ -156,12 +156,13 @@ chuser "git config --global user.name 'Carter Prince'"
 # vim plugins
 chuser "git clone --depth 1 https://github.com/jiangmiao/auto-pairs /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/auto-pairs"
 
+# st build
+chuser "mkdir -p ~/.local/src"
+chuser "git clone --depth 1 https://github.com/carterprince/st /home/$USERNAME/.local/src/st"
+ch "cd /home/$USERNAME/.local/src/st && make clean install"
+
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
 ch ln -sf /home/$USERNAME/.config/chromium-policy.json /etc/chromium/policies/managed/chromium-policy.json
 
-# set the user shell to zsh
-ch chsh -s /bin/zsh $USERNAME
-
-reboot
-# btw, you may need to reboot again for chromium and some things to start properly
+reboot # btw, you may need to reboot again for chromium and some things to start properly

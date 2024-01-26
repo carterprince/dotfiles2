@@ -3,11 +3,16 @@
 #
 
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+#[[ $- != *i* ]] && return
 
-schedule
+#schedule
 
-PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[38;5;75m\][\w]\[\033[00m\] \[\033[00m\]\$ "
+#PS1=
+
+prompt() {
+    PS1="$(printf "%*s" "$(tput cols)" "$(schedule)")\n\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[38;5;75m\][\w]\[\033[00m\] \[\033[00m\]\$ "
+}
+PROMPT_COMMAND=prompt
 
 set -o vi
 
@@ -21,6 +26,7 @@ alias src="cd $HOME/.local/src"
 alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
 alias nvimconf="nvim $HOME/.config/nvim/init.vim"
+alias odin="ssh -q cap71920@odin.cs.uga.edu"
 function git-login() {
     git config --global user.email "carteraprince@gmail.com"
     git config --global user.name "Carter Prince"

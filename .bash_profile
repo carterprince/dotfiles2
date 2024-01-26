@@ -14,3 +14,5 @@ export TERMINAL="st"
 export EDITOR="nvim"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+
+source ~/.credentials
