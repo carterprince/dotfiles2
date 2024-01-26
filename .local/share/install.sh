@@ -20,7 +20,7 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel ttf-monaco adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp playerctl reflector cronie jdk-openjdk"
+MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp playerctl reflector cronie jdk-openjdk"
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome gnome-shell-extension-stealmyfocus-git" # more minimal GNOME install
