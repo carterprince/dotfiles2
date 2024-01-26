@@ -159,7 +159,7 @@ chuser "git clone --depth 1 https://github.com/jiangmiao/auto-pairs /home/$USERN
 # st build
 chuser "mkdir -p ~/.local/src"
 chuser "git clone --depth 1 https://github.com/carterprince/st /home/$USERNAME/.local/src/st"
-ch "cd /home/$USERNAME/.local/src/st && make clean install"
+chuser "cd /home/$USERNAME/.local/src/st && sudo make clean install"
 
 # add chromium policy symlink for automatic browser configuration
 ch mkdir -p /etc/chromium/policies/managed
