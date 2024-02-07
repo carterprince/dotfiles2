@@ -7,12 +7,7 @@
 
 #schedule
 
-#PS1=
-
-prompt() {
-    PS1="$(printf "%*s" "$(tput cols)" "$(schedule)")\n\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[38;5;75m\][\w]\[\033[00m\] \[\033[00m\]\$ "
-}
-PROMPT_COMMAND=prompt
+PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
 
 set -o vi
 
@@ -27,6 +22,7 @@ alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
 alias nvimconf="nvim $HOME/.config/nvim/init.vim"
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
+alias tree="tree -C"
 function git-login() {
     git config --global user.email "carteraprince@gmail.com"
     git config --global user.name "Carter Prince"
@@ -54,3 +50,5 @@ function note() {
 function fd() {
     find | grep -i "$@"
 }
+
+source $HOME/.credentials
