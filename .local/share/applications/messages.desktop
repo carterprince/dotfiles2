@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Google Messages
-GenericName=Google Messages
-Exec=xdg-open https://messages.google.com/web/conversations/2
-Icon=android-messages-desktop
