@@ -2,7 +2,7 @@
 
 electric boogaloo
 
-This is where I keep my dotfiles and custom installation script.
+This is where I keep my dotfiles.
 
 ## Overview
 
