@@ -1,10 +1,10 @@
 [Unit]
-Description=Mount Odin at startup with sshfs
+Description=Mount Odin server at startup with sshfs
 
 [Service]
 Type=oneshot
 ExecStartPre=/bin/mkdir -p /home/%u/Odin
-ExecStart=/usr/bin/sshfs rocky@150.136.94.132:/home/myid/cap71920 /home/%u/Odin -o reconnect,ServerAliveInterval=15
+ExecStart=/usr/bin/sshfs cap71920@odin.cs.uga.edu:/home/myid/cap71920 /home/%u/Odin -o reconnect,ServerAliveInterval=15
 RemainAfterExit=yes
 
 [Install]
