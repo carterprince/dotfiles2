@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=grafstate
+Comment=grafSTATE graf
+Exec=xdg-open "https://grafstate.com/shell/"
+Icon=/home/carter/Pictures/grafstate.svg
+Terminal=false
+Encoding=UTF-8
+StartupNotify=true

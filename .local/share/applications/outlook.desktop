@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=UGAMail
+Comment=University of Georgia Outlook
+Exec=xdg-open "https://outlook.com/outlook.uga.edu"
+Icon=/home/carter/Pictures/outlook.svg
+Terminal=false
+Encoding=UTF-8
+StartupNotify=true

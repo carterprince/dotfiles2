@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=UGA eLC
+Comment=University of Georgia eLearning Commons
+Exec=xdg-open "https://uga.view.usg.edu/d2l/home"
+Icon=/home/carter/Pictures/elc.svg
+Terminal=false
+Encoding=UTF-8
+StartupNotify=true

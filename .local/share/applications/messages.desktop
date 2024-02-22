@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Messages
+Comment=Google Messages
+Exec=xdg-open "https://messages.google.com/web/conversations"
+Icon=/home/carter/Pictures/messages.svg
+Terminal=false
+Encoding=UTF-8
+StartupNotify=true

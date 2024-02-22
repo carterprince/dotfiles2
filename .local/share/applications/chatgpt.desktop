@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=ChatGPT
+Comment=OpenAI ChatGPT (GPT-4)
+Exec=xdg-open "https://chat.openai.com/?model=gpt-4"
+Icon=/home/carter/Pictures/chatgpt.svg
+Terminal=false
+Encoding=UTF-8
+StartupNotify=true

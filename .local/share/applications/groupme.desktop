@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=GroupMe
+Comment=GroupMe
+Exec=xdg-open "https://web.groupme.com/chats"
+Icon=/home/carter/Pictures/groupme.svg
+Terminal=false
+Encoding=UTF-8
+StartupNotify=true
