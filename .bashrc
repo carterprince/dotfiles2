@@ -48,6 +48,7 @@ alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
 alias nvimconf="nvim $HOME/.config/nvim/init.vim"
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
 alias tree="tree -C"
+alias open="xdg-open"
 
 # fedora-specific
 alias dnf="dnf5"
@@ -63,7 +64,7 @@ function ssh-gen() {
     echo "Paste the clipboard here: https://github.com/settings/ssh/new"
 }
 function e() {
-    nvim $(find | grep "$@" | head -1)
+    nvim $(fd --type file --hidden --no-ignore "$@" | awk 'NR == 1 || length < length(shortest) { shortest = $0 } END { print shortest }')
 }
 function libby-push() {
     libby "$@" && adbsync push $HOME/Books/ /sdcard/Books/
@@ -78,9 +79,6 @@ function note() {
 }
 function notes-backup() {
     cp -r ~/Notes ~/Notes_Backup
-}
-function fd() {
-    find | grep -i "$@"
 }
 
 source $HOME/.credentials
