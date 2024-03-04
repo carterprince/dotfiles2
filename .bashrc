@@ -32,7 +32,7 @@ PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
 set -o vi
 
 # aliases
-alias ls='ls --color=auto'
+alias ls='ls --color=auto --hyperlink=auto'
 alias grep='grep --color=auto'
 alias yay="paru"
 alias wget="curl -LO" # all my homies hate wget
