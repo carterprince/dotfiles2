@@ -54,11 +54,10 @@ alias open="xdg-open"
 alias dnf="dnf5"
 
 function git-login() {
+    cd ~
+    git remote set-url origin git@github.com:carterprince/dotfiles2.git
     git config --global user.email "carteraprince@gmail.com"
     git config --global user.name "Carter Prince"
-}
-function ssh-gen() {
-    git-login
     echo | ssh-keygen -t ed25519 -C "carteraprince@gmail.com"
     cat $HOME/.ssh/id_ed25519.pub | xsel -ib
     echo "Paste the clipboard here: https://github.com/settings/ssh/new"
