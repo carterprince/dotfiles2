@@ -1,0 +1,82 @@
+#!/bin/env python3
+
+import feedparser
+import dateparser
+from datetime import datetime, timedelta
+from xml.etree import ElementTree as ET
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pytz import timezone, utc
+
+def parse_opml(file_path):
+    tree = ET.parse(file_path)
+    root = tree.getroot()
+    feeds = []
+
+    for outline in root.findall(".//outline"):
+        if 'xmlUrl' in outline.attrib:
+            feeds.append(outline.attrib['xmlUrl'])
+
+    return feeds
+
+def fetch_feed_items(feed_url):
+    headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'}
+    feed = feedparser.parse(feed_url, request_headers=headers)
+    items = []
+    for entry in feed.entries[:25]:  # Process only the first 50 entries per feed
+        date = entry.get("published", "No date")
+
+        if date == "No date": date = entry.get("updated", "No date")
+
+        if date != "No date":
+            published_time = dateparser.parse(date)
+            if published_time is not None:
+                if published_time >= datetime.now(utc) - timedelta(hours=80):
+                    entry_link = next((link.href for link in entry.links if link.type == "audio/mpeg"), entry.links[0].href)
+                    content = entry.get("content", None)
+
+                    items.append({
+                        'title': entry.title,
+                        'link': entry_link,
+                        'published': published_time,
+                        'description': entry.description,
+                        'content': content
+                    })
+        else:
+            print("No date")
+
+    return items
+
+
+def main():
+    opml_file = 'feed.opml'
+    feed_urls = parse_opml(opml_file)
+
+    all_items = []
+    with ProcessPoolExecutor() as executor:
+        futures = [executor.submit(fetch_feed_items, url) for url in feed_urls]
+        for future in as_completed(futures):
+            items = future.result()
+            all_items.extend(items)
+
+    # Sort items by published date in descending order (most recent first)
+    sorted_items = sorted(all_items, key=lambda x: x['published'], reverse=True)
+
+    # Set the target timezone to US Eastern Time
+    target_tz = timezone('US/Eastern')
+
+    for item in sorted_items:
+        title = item['title']
+        link = item['link']
+        published = item['published']
+        
+        # Convert the published datetime to the target timezone
+        published_local = published.astimezone(target_tz)
+        
+        # Format the published datetime in 12-hour format with AM/PM
+        published_formatted = published_local.strftime('%Y-%m-%d %I:%M %p')
+        
+        # Print the title with OSC 8 styled hyperlink
+        print(f"• {published_formatted} \033]8;;{link}\033\\{title}\033]8;;\033\\")
+
+if __name__ == '__main__':
+    main()
