@@ -21,7 +21,7 @@ HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
 MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk"
-NETWORKING="dhcpcd networkmanager openssl"
+NETWORKING="dhcpcd networkmanager"
 # LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 LATEX=""
 # GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome gnome-shell-extension-stealmyfocus-git" # more minimal GNOME install
@@ -75,7 +75,7 @@ sed -i 's/#Pa/Pa/' /etc/pacman.conf
 reflector --verbose --country US -l 50 -f 5 --sort score --save /etc/pacman.d/mirrorlist
 
 # install base system, can take a few minutes depending on your download speed
-pacstrap -K /mnt base linux linux-firmware sudo base-devel
+pacstrap -K /mnt base linux linux-firmware sudo base-devel openssl
 
 # copy mirrors over to installed system
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
