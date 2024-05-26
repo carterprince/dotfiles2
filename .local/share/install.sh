@@ -25,7 +25,7 @@ NETWORKING="dhcpcd networkmanager"
 # LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 LATEX=""
 # GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome gnome-shell-extension-stealmyfocus-git" # more minimal GNOME install
-GNOME=""
+GNOME="gnome"
 CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
 PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME" # this is what will be installed
 
