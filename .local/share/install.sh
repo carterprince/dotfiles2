@@ -122,7 +122,7 @@ mkdir -p /mnt/etc/sudoers.d
 echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | tee /mnt/etc/sudoers.d/00_$USERNAME
 
 # install paru
-URL=$(curl -s https://api.github.com/repos/Morganamilo/paru/releases/latest | grep "x86" | cut -d : -f 2,3 | tr -d \" | tail -1 | awk '{$1=$1};1')
+URL=$(curl -s https://api.github.com/repos/Morganamilo/paru/releases/latest | grep "x86" | grep https | head -1 | cut -d: -f2,3 | tr -d \" | awk '{$1=$1};1')
 curl -sL $URL | sudo tee /mnt/tmp/paru.tar.zst > /dev/null
 tar -xvf /mnt/tmp/paru.tar.zst paru --to-stdout > /mnt/usr/bin/paru
 chmod +x /mnt/usr/bin/paru
