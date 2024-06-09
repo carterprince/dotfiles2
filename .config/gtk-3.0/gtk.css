@@ -8,17 +8,18 @@ windowcontrols > button {
   min-width: 18px;
   min-height: 18px;
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  
 }
 button.titlebutton:backdrop { 
   opacity: 0.8;
   color:rgba(0, 0, 0, 0);
 }
 
-
-
 windowcontrols > button > image {
   padding: 0px;
- }
+  opacity: 0.0;
+}
+
 button.titlebutton.close, button.titlebutton.close:hover:backdrop,
 windowcontrols > button.close, 
 windowcontrols > button.close:hover:backdrop {
