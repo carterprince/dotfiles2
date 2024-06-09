@@ -79,5 +79,3 @@ function note() {
 function notes-backup() {
     cp -r ~/Notes ~/Notes_Backup
 }
-
-source $HOME/.credentials

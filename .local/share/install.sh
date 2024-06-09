@@ -20,10 +20,12 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac transmission-gtk bat gvfs-mtp android-tools kiwix-tools kiwix-desktop fd baobab better-adb-sync-git zathura zathura-pdf-mupdf tesseract-data-eng gimp playerctl reflector cronie jdk-openjdk"
+MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk"
 NETWORKING="dhcpcd networkmanager"
-LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
-GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome gnome-shell-extension-stealmyfocus-git" # more minimal GNOME install
+# LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
+LATEX=""
+# GNOME="gnome-shell nautilus gnome-tweaks gnome-control-center gdm xdg-user-dirs papirus-icon-theme gnome-shell-extension-dash-to-dock xdg-desktop-portal-gnome gnome-shell-extension-stealmyfocus-git" # more minimal GNOME install
+GNOME="gnome"
 CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
 PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME" # this is what will be installed
 
@@ -73,7 +75,7 @@ sed -i 's/#Pa/Pa/' /etc/pacman.conf
 reflector --verbose --country US -l 50 -f 5 --sort score --save /etc/pacman.d/mirrorlist
 
 # install base system, can take a few minutes depending on your download speed
-pacstrap -K /mnt base linux linux-firmware sudo base-devel
+pacstrap -K /mnt base linux linux-firmware sudo base-devel openssl
 
 # copy mirrors over to installed system
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
@@ -120,7 +122,7 @@ mkdir -p /mnt/etc/sudoers.d
 echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | tee /mnt/etc/sudoers.d/00_$USERNAME
 
 # install paru
-URL=$(curl -s https://api.github.com/repos/Morganamilo/paru/releases/latest | grep "x86" | cut -d : -f 2,3 | tr -d \" | tail -1 | awk '{$1=$1};1')
+URL=$(curl -s https://api.github.com/repos/Morganamilo/paru/releases/latest | grep "x86" | grep https | head -1 | cut -d: -f2,3 | tr -d \" | awk '{$1=$1};1')
 curl -sL $URL | sudo tee /mnt/tmp/paru.tar.zst > /dev/null
 tar -xvf /mnt/tmp/paru.tar.zst paru --to-stdout > /mnt/usr/bin/paru
 chmod +x /mnt/usr/bin/paru
