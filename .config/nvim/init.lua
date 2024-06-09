@@ -70,15 +70,15 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate"
   },
-  {
-      "rebelot/kanagawa.nvim",  -- neorg needs a colorscheme with treesitter support
-  },
+  -- {
+  --     "rebelot/kanagawa.nvim",  -- neorg needs a colorscheme with treesitter support
+  -- },
   {
       "tpope/vim-commentary"
   },
 })
 
-vim.cmd.colorscheme('kanagawa-dragon')
+-- vim.cmd.colorscheme('kanagawa-dragon')
 
 -- Clipboard settings
 vim.opt.clipboard:append { "unnamedplus" }
