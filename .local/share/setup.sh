@@ -8,7 +8,7 @@ clear # for dramatic effect
 set -e
 set -o pipefail
 
-# Detect the distribution
+# detect the distro
 if [ -f /etc/os-release ]; then
     . /etc/os-release
     DISTRO=$ID
@@ -19,7 +19,7 @@ else
     exit 1
 fi
 
-# Define packages based on distribution
+# define packages based on distribution
 case $DISTRO in
     arch)
         PACKAGE_MANAGER_CMD="pacman -Syu --noconfirm --needed"
@@ -47,11 +47,12 @@ esac
 
 PACKAGES="$MISC $LATEX $GNOME"
 
+# install packages
 ${PACKAGE_MANAGER_CMD} $PACKAGES
 
+# install my dotfiles
 cd $HOME
 
-# install my dotfiles
 git init
 git remote add origin https://github.com/carterprince/dotfiles2.git
 git fetch
