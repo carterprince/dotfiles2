@@ -8,27 +8,57 @@ clear # for dramatic effect
 set -e
 set -o pipefail
 
-# define some packages
-MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk"
-LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
-GNOME="gnome gnome-tweaks"
-PACKAGES="$NETWORKING $MISC $LATEX $GNOME" # this is what will be installed
+# Detect the distribution
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    DISTRO=$ID
+elif type lsb_release >/dev/null 2>&1; then
+    DISTRO=$(lsb_release -si)
+else
+    echo "Cannot determine the distribution."
+    exit 1
+fi
 
-# set the above dynamically based on detected distro (Arch, Fedora, Debian)
+# Define packages based on distribution
+case $DISTRO in
+    arch)
+        PACKAGE_MANAGER_CMD="pacman -Syu --noconfirm --needed"
+        MISC="neovim curl git chromium mpv mpv-mpris nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk"
+        LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
+        GNOME="gnome gnome-tweaks"
+        ;;
+    fedora)
+        PACKAGE_MANAGER_CMD="dnf install -y"
+        MISC="neovim curl git chromium mpv mpv-mpris sxiv xclip google-noto-sans-cjk-jp-fonts google-noto-sans-cjk-kr-fonts google-noto-sans-cjk-sc-fonts man-db man-pages wikiman dashbinsh ImageMagick htop neofetch expac bat gvfs-mtp android-tools findutils baobab gimp playerctl dnf-automatic java-latest-openjdk"
+        LATEX="texlive-scheme-full"
+        GNOME="gnome-desktop gnome-tweaks"
+        ;;
+    debian | ubuntu)
+        PACKAGE_MANAGER_CMD="apt-get install -y"
+        MISC="neovim curl git chromium mpv mpv-mpris sxiv xsel fonts-noto-cjk-extra man-db manpages wikiman imagemagick htop neofetch expac bat gvfs-backends adb findutils baobab gimp playerctl cron anacron openjdk-17-jdk"
+        LATEX="texlive-full"
+        GNOME="gnome gnome-tweaks"
+        ;;
+    *)
+        echo "Unsupported distribution: $DISTRO"
+        exit 1
+        ;;
+esac
 
-# set PACKAGE_MANAGER_CMD dynamically
+PACKAGES="$MISC $LATEX $GNOME"
 
 ${PACKAGE_MANAGER_CMD} $PACKAGES
 
 cd $HOME
 
 # install my dotfiles
-chuser "git init"
-chuser "git remote add origin https://github.com/carterprince/dotfiles2.git"
-chuser "git fetch"
-chuser "git checkout -f main"
+git init
+git remote add origin https://github.com/carterprince/dotfiles2.git
+git fetch
+git checkout -f main
 
-chuser "git config --global user.email 'carteraprince@gmail.com'"
-chuser "git config --global user.name 'Carter Prince'"
+git config --global user.email 'carteraprince@gmail.com'
+git config --global user.name 'Carter Prince'
 
-reboot # btw, you may need to reboot again for chromium and some things to start properly
+# btw, you may need to reboot again for chromium and some things to start properly
+reboot
