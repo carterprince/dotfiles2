@@ -44,41 +44,14 @@ require("lazy").setup({
             }
         end,
     },
-  --  {
-  --    "nvim-neorg/neorg",
-  --    build = ":Neorg sync-parsers",
-  --    lazy = false, -- specify lazy = false because some lazy.nvim distributions set lazy = true by default
-  --    -- tag = "*",
-  --    dependencies = { "nvim-lua/plenary.nvim" },
-  --    config = function()
-  --      require("neorg").setup {
-  --        load = {
-  --          ["core.defaults"] = {}, -- Loads default behaviour
-  --          ["core.concealer"] = {}, -- Adds pretty icons to your documents
-  --          ["core.dirman"] = { -- Manages Neorg workspaces
-  --            config = {
-  --              workspaces = {
-  --                notes = "~/Notes",
-  --              },
-  --            },
-  --          },
-  --        },
-  --      }
-  --    end,
-  --  },
   {
       "nvim-treesitter/nvim-treesitter",
       build = ":TSUpdate"
   },
-  -- {
-  --     "rebelot/kanagawa.nvim",  -- neorg needs a colorscheme with treesitter support
-  -- },
   {
       "tpope/vim-commentary"
   },
 })
-
--- vim.cmd.colorscheme('kanagawa-dragon')
 
 -- Clipboard settings
 vim.opt.clipboard:append { "unnamedplus" }
@@ -107,7 +80,6 @@ vim.api.nvim_set_keymap("n", "<BS>", "<C-o>", { noremap = true })
 vim.api.nvim_set_keymap("n", "K", ":nohlsearch<CR><Esc>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-c>", ":Commentary<CR><Esc>", { noremap = true })
 vim.api.nvim_set_keymap("v", "<C-c>", ":Commentary<CR><Esc>", { noremap = true })
-
 
 -- NvimTree
 vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeFindFileToggle %:p:h<CR><Esc>", { noremap = true })
