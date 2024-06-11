@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# run this file from the Arch ISO with:
+# run this script from A FRESH INSTALL of Arch, Debian, Fedora
 # curl -LO carterprince.us/setup.sh && bash setup.sh
 
 clear # for dramatic effect
