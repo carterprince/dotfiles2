@@ -25,7 +25,7 @@ fi
 unset rc
 
 # If not running interactively, don't do anything
-#[[ $- != *i* ]] && return
+# [[ $- != *i* ]] && return
 
 PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
 
@@ -35,7 +35,6 @@ set -o vi
 alias ls='ls --color=auto --hyperlink=auto'
 alias grep='grep --color=auto'
 alias yay="paru"
-alias wget="curl -LO" # all my homies hate wget
 alias bin="cd $HOME/.local/bin"
 alias src="cd $HOME/.local/src"
 alias sudo="sudo "
@@ -45,7 +44,7 @@ alias dosleep="pkill systemd-inhibit"
 # gnome-specific
 alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
-alias nvimconf="nvim $HOME/.config/nvim/init.vim"
+alias nvimconf="nvim $HOME/.config/nvim/init.lua"
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
 alias tree="tree -C"
 alias open="xdg-open"
@@ -62,20 +61,13 @@ function git-login() {
     cat $HOME/.ssh/id_ed25519.pub | xsel -ib
     echo "Paste the clipboard here: https://github.com/settings/ssh/new"
 }
+
 function e() {
     nvim $(fd --type file --hidden --no-ignore "$@" | awk 'NR == 1 || length < length(shortest) { shortest = $0 } END { print shortest }')
 }
-function libby-push() {
-    libby "$@" && adbsync push $HOME/Books/ /sdcard/Books/
-}
-function uninstall() {
+
+function android-uninstall() {
     echo "Uninstalling $1..."
     adb shell pm uninstall -k --user 0 "$1"
     adb uninstall $1
-}
-function note() {
-    nvim "$HOME/Notes/Journal/$(date +'%Y-%M-%d_%_I:%M_%p').md"
-}
-function notes-backup() {
-    cp -r ~/Notes ~/Notes_Backup
 }
