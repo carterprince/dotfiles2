@@ -155,16 +155,4 @@ chuser "git checkout -f main"
 chuser "git config --global user.email 'carteraprince@gmail.com'"
 chuser "git config --global user.name 'Carter Prince'"
 
-# vim plugins
-chuser "git clone --depth 1 https://github.com/jiangmiao/auto-pairs /home/$USERNAME/.local/share/nvim/site/pack/plugins/start/auto-pairs"
-
-# st build
-chuser "mkdir -p ~/.local/src"
-chuser "git clone --depth 1 https://github.com/carterprince/st /home/$USERNAME/.local/src/st"
-chuser "cd /home/$USERNAME/.local/src/st && sudo make clean install"
-
-# add chromium policy symlink for automatic browser configuration
-ch mkdir -p /etc/chromium/policies/managed
-ch ln -sf /home/$USERNAME/.config/chromium-policy.json /etc/chromium/policies/managed/chromium-policy.json
-
 reboot # btw, you may need to reboot again for chromium and some things to start properly
