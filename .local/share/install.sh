@@ -140,6 +140,13 @@ options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 # install hosts
 curl -sL http://sbc.io/hosts/hosts | tee /mnt/etc/hosts > /dev/null
 
+# install adw-gtk3 for flatpak
+chuser "flatpak install -y org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark"
+
+# get gtk theme working for flatpaks
+chuser "flatpak override --filesystem=xdg-config/gtk-3.0"
+ch sudo flatpak override --filesystem=xdg-config/gtk-4.0
+
 # some services
 # dhcpcd, needed for ethernet
 ch systemctl enable dhcpcd
