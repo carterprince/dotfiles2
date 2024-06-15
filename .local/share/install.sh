@@ -137,6 +137,9 @@ initrd $CHIPSET-ucode.img
 initrd /initramfs-linux.img
 options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
 
+# install hosts
+curl -sL http://sbc.io/hosts/hosts | tee /mnt/etc/hosts > /dev/null
+
 # some services
 # dhcpcd, needed for ethernet
 ch systemctl enable dhcpcd
