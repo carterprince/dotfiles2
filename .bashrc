@@ -34,6 +34,7 @@ set -o vi
 # aliases
 alias ls='ls --color=auto --hyperlink=auto'
 alias grep='grep --color=auto'
+alias diff='diff --color'
 alias yay="paru"
 alias bin="cd $HOME/.local/bin"
 alias src="cd $HOME/.local/src"
