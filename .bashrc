@@ -72,3 +72,5 @@ function android-uninstall() {
     adb shell pm uninstall -k --user 0 "$1"
     adb uninstall $1
 }
+
+./organize.bash 2> /dev/null
