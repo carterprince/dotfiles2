@@ -17,7 +17,11 @@ List of software included:
 
 ## Install
 
-```zsh
+```bash
+curl -L carterprince.us/dotfiles | sh
+```
+
+```bash
 cd
 git init
 git remote add origin https://github.com/carterprince/dotfiles2.git
