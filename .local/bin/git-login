@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cd $HOME
+
+git remote set-url origin git@github.com:carterprince/dotfiles2.git
+
+git config --global user.email "carteraprince@gmail.com"
+git config --global user.name "Carter Prince"
+
+echo | ssh-keygen -t ed25519 -C "carteraprince@gmail.com"
+cat $HOME/.ssh/id_ed25519.pub | tr -d '\n' | xsel -ib
+
+echo "Paste the clipboard here: https://github.com/settings/ssh/new"
