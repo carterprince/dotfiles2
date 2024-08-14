@@ -1,3 +1,2 @@
 "\C-h": backward-kill-word
-
 set keyseq-timeout 0

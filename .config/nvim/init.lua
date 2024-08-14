@@ -19,6 +19,7 @@ vim.g.loaded_netrwPlugin = 1
 
 -- optionally enable 24-bit colour
 vim.opt.termguicolors = true
+vim.opt.synmaxcol = 0
 
 require("lazy").setup({
     {
@@ -95,8 +96,33 @@ vim.api.nvim_set_keymap("n", "<leader>w", ":w!<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "gx", ":!xdg-open <C-R><C-A><CR><Esc>", { noremap = true })
 vim.api.nvim_set_keymap("n", "0", "^", { noremap = true })
 
+vim.api.nvim_set_keymap('', '<C-LeftMouse>', '<nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('!', '<C-LeftMouse>', '<nop>', { noremap = true, silent = true })
+
 local api = require("nvim-tree.api")
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function()
     api.tree.expand_all()
 end)
+
+-- thanks, claude
+vim.api.nvim_create_augroup("MdTemplateAutoCmd", { clear = true })
+vim.api.nvim_create_autocmd("BufNewFile", {
+  group = "MdTemplateAutoCmd",
+  pattern = vim.fn.expand("~") .. "/.local/src/carterpage/content/posts/*.md",
+  callback = function()
+    local filename = vim.fn.expand("%:t:r")
+    local title = filename:gsub("-", " "):gsub("(%l)(%w*)", function(a,b) return string.upper(a)..b end)
+    local date = os.date("%Y-%m-%d")
+    local lines = {
+      "---",
+      'title: "' .. title .. '"',
+      "date: " .. date,
+      "---",
+      ""
+    }
+    vim.api.nvim_buf_set_lines(0, 0, 0, false, lines)
+    vim.cmd("normal! G")
+    vim.cmd("startinsert")
+  end
+})

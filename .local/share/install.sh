@@ -20,10 +20,9 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim curl git chromium mpv mpv-mpris ttf-monaco-nerd-font-git nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk papirus-icon-theme"
+MISC="neovim curl git chromium mpv mpv-mpris ttf-monaco-nerd-font-git nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk papirus-icon-theme tealdeer"
 NETWORKING="dhcpcd networkmanager"
-# LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
-LATEX=""
+LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome gnome-tweaks dconf-editor adw-gtk3"
 CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
 PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME" # this is what will be installed
@@ -39,9 +38,9 @@ if [[ $DISK == *nvme* ]]; then
 else
     PARTITION_PREFIX=""
 fi
-EFI="${DISK}${PARTITION_PREFIX}1"
-SWAP="${DISK}${PARTITION_PREFIX}2"
-ROOT="${DISK}${PARTITION_PREFIX}3"
+EFI_PARTITION="${DISK}${PARTITION_PREFIX}1"
+SWAP_PARTITION="${DISK}${PARTITION_PREFIX}2"
+ROOT_PARTITION="${DISK}${PARTITION_PREFIX}3"
 
 ROOT_PASSWORD=$(get_input "Enter root password" "password")
 USERNAME=$(get_input "Enter user" "user")
@@ -57,14 +56,17 @@ parted $DISK --script -- mklabel gpt mkpart ESP fat32 1MiB 513MiB set 1 esp on m
 # /dev/sda3   Rest  Linux filesystem
 
 # format the partitions
-mkfs.ext4 $ROOT
-mkswap $SWAP
-mkfs.fat -F 32 $EFI
+mkfs.ext4 $ROOT_PARTITION
+mkswap $SWAP_PARTITION
+mkfs.fat -F 32 $EFI_PARTITION
 
 # mount the partitions
-mount $ROOT /mnt
-mount --mkdir $EFI /mnt/boot
-swapon $SWAP
+mount $ROOT_PARTITION $ROOT
+mount --mkdir $EFI_PARTITION $ROOT/boot
+swapon $SWAP_PARTITION
+
+# root directory prefix
+ROOT="/mnt"
 
 # uncomment ParallelDownloads = 5 in /etc/pacman.conf
 # just makes the installation a little faster
@@ -74,17 +76,17 @@ sed -i 's/#Pa/Pa/' /etc/pacman.conf
 reflector --verbose --country US -l 50 -f 5 --sort score --save /etc/pacman.d/mirrorlist
 
 # install base system, can take a few minutes depending on your download speed
-pacstrap -K /mnt base linux linux-firmware sudo base-devel openssl
+pacstrap -K $ROOT base linux linux-firmware sudo base-devel openssl
 
 # copy mirrors over to installed system
-cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
+cp /etc/pacman.d/mirrorlist $ROOT/etc/pacman.d/mirrorlist
 
 # generate /etc/fstab
-genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U $ROOT >> $ROOT/etc/fstab
 
 # set up a function to make this part faster
 ch() {
-    arch-chroot /mnt "$@"
+    arch-chroot $ROOT "$@"
 }
 
 chuser() {
@@ -98,16 +100,16 @@ ch ln -sf "/usr/share/zoneinfo/$TIMEZONE" /etc/localtime
 ch hwclock --systohc
 
 # set up locale
-echo 'en_US.UTF-8 UTF-8' > /mnt/etc/locale.gen
+echo 'en_US.UTF-8 UTF-8' > $ROOT/etc/locale.gen
 ch locale-gen
-echo 'LANG=en_US.UTF-8' > /mnt/etc/locale.conf
+echo 'LANG=en_US.UTF-8' > $ROOT/etc/locale.conf
 
 # set the hostname, replace with your desired hostname
-echo $HOSTNAME > /mnt/etc/hostname
+echo $HOSTNAME > $ROOT/etc/hostname
 
 # enable ParallelDownloads and Color on the installed system
-sed -i 's/#Pa/Pa/' /mnt/etc/pacman.conf
-sed -i "s/#Color/Color/" /mnt/etc/pacman.conf
+sed -i 's/#Pa/Pa/' $ROOT/etc/pacman.conf
+sed -i "s/#Color/Color/" $ROOT/etc/pacman.conf
 
 # set the root password, you want to change this
 echo -e "$ROOT_PASSWORD\n$ROOT_PASSWORD" | ch passwd
@@ -117,14 +119,14 @@ ch useradd -m $USERNAME
 echo -e "$USER_PASSWORD\n$USER_PASSWORD" | ch passwd $USERNAME
 
 # add user to sudoers
-mkdir -p /mnt/etc/sudoers.d
-echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | tee /mnt/etc/sudoers.d/00_$USERNAME
+mkdir -p $ROOT/etc/sudoers.d
+echo "$USERNAME ALL=(ALL) NOPASSWD: ALL" | tee $ROOT/etc/sudoers.d/00_$USERNAME
 
 # install paru
 URL=$(curl -s https://api.github.com/repos/Morganamilo/paru/releases/latest | grep "x86" | grep https | head -1 | cut -d: -f2,3 | tr -d \" | awk '{$1=$1};1')
-curl -sL $URL | sudo tee /mnt/tmp/paru.tar.zst > /dev/null
-tar -xvf /mnt/tmp/paru.tar.zst paru --to-stdout > /mnt/usr/bin/paru
-chmod +x /mnt/usr/bin/paru
+curl -sL $URL | sudo tee $ROOT/tmp/paru.tar.zst > /dev/null
+tar -xvf $ROOT/tmp/paru.tar.zst paru --to-stdout > $ROOT/usr/bin/paru
+chmod +x $ROOT/usr/bin/paru
 
 # install list of packages defined above
 chuser "paru -S --noconfirm --needed $PACKAGES"
@@ -135,15 +137,16 @@ echo "title Arch Linux
 linux /vmlinuz-linux
 initrd $CHIPSET-ucode.img
 initrd /initramfs-linux.img
-options root=$ROOT rw" > /mnt/boot/loader/entries/arch.conf
+options root=$ROOT_PARTITION rw" > $ROOT/boot/loader/entries/arch.conf
 
 # install hosts
-curl -sL http://sbc.io/hosts/hosts | tee /mnt/etc/hosts > /dev/null
+curl -sL http://sbc.io/hosts/hosts | tee $ROOT/etc/hosts > /dev/null
 
-# install adw-gtk3 for flatpak
+# update tealdeer
+chuser "tldr -u"
+
+# flatpak gtk theming
 chuser "flatpak install -y org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark"
-
-# get gtk theme working for flatpaks
 chuser "flatpak override --filesystem=xdg-config/gtk-3.0"
 ch sudo flatpak override --filesystem=xdg-config/gtk-4.0
 
