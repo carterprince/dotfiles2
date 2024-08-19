@@ -21,8 +21,11 @@ alias tree="tree -C"
 # shortcuts
 alias bin="cd $HOME/.local/bin && ls"
 alias src="cd $HOME/.local/src && ls"
-alias init.lua="nvim $HOME/.config/nvim/init.lua"
-alias nvimconf="init.lua"
+nvimconf() {
+    nvim $HOME/.config/nvim/init.lua
+    sudo mkdir -p /root/.config/nvim
+    sudo cp /home/$USER/.config/nvim/init.lua /root/.config/nvim/init.lua
+}
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
 alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
