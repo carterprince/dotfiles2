@@ -14,7 +14,7 @@ set -o vi
 
 # default util flags
 alias ls='ls --color=auto --hyperlink=auto'
-alias grep='grep --color=auto --with-filename --line-number'
+alias grep='grep --color=auto'
 alias diff='diff --color=auto --unified'
 alias tree="tree -C"
 
