@@ -6,7 +6,7 @@
 [[ -f /etc/bashrc ]] && source /etc/bashrc
 
 # source secret stuff
-source $HOME/.credentials
+[[ -f $HOME/.credentials ]] && source $HOME/.credentials
 
 PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
 
@@ -18,22 +18,19 @@ alias grep='grep --color=auto'
 alias diff='diff --color=auto --unified'
 alias tree="tree -C"
 
-# shortcuts
+# shortcuts/aliases
 alias bin="cd $HOME/.local/bin && ls"
 alias src="cd $HOME/.local/src && ls"
 nvimconf() {
     nvim $HOME/.config/nvim/init.lua
     sudo mkdir -p /root/.config/nvim
-    sudo cp /home/$USER/.config/nvim/init.lua /root/.config/nvim/init.lua
+    sudo -v && sudo cp /home/$USER/.config/nvim/init.lua /root/.config/nvim/init.lua
 }
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
+alias open="xdg-open"
 alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
-alias vaultdl="spotdl https://open.spotify.com/playlist/3ocO2UJcCOdTdVsIjU6Jac"
-
-# aliases
 alias yay="paru"
-alias open="xdg-open"
 alias up="sudo pacman -Syyu"
 alias aurup="yay -Syyu"
 
