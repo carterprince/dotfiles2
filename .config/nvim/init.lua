@@ -90,7 +90,7 @@ vim.api.nvim_set_keymap("n", "<C-h>", ":NvimTreeOpen %:p:h<CR><Esc>", { noremap 
 vim.api.nvim_set_keymap("n", "<C-l>", ":NvimTreeClose<CR><Esc>", { noremap = true })
 
 vim.api.nvim_set_keymap("n", "W", "viwo<Esc>~h", { noremap = true })
-vim.api.nvim_set_keymap("n", "M", ":!run %<CR><Esc>", { noremap = true })
+vim.api.nvim_set_keymap("n", "M", ":!run %<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>q", ":q!<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>w", ":w!<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "gx", ":!xdg-open <C-R><C-A><CR><Esc>", { noremap = true })
