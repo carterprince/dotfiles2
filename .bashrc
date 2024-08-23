@@ -1,5 +1,5 @@
 #
-# ~/.bashrc
+# carter's ~/.bashrc
 # 
 
 # source global bashrc
@@ -12,13 +12,13 @@ PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
 
 set -o vi
 
-# default util flags
+# default flags for utilities
 alias ls='ls --color=auto --hyperlink=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto --unified'
 alias tree="tree -C"
 
-# shortcuts/aliases
+# shortcuts and aliases
 alias bin="cd $HOME/.local/bin && ls"
 alias src="cd $HOME/.local/src && ls"
 nvimconf() {

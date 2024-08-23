@@ -1,0 +1,13 @@
+#!/bin/bash
+
+mkdir -p ~/{Pictures,Documents,Videos,Audio,Data,Code}
+
+mv -v {~/Downloads,~}/*.{png,bmp,tiff,jpg,jpeg,gif,webp,svg} ~/Pictures 2>/dev/null
+mv -v {~/Downloads,~}/*.{pdf,docx,html,md,opml,OPML,log,tex,css,aux,doc,odt,txt,org,norg,org\#,org\~} ~/Documents 2>/dev/null
+mv -v {~/Downloads,~}/*.{csv,xlsx,json,xml,stata,dta} ~/Data 2>/dev/null
+mv -v {~/Downloads,~}/*.{py,c,r,R,cs,java} ~/Code 2>/dev/null
+mv -v {~/Downloads,~}/*.{mp4,webm,mkv} ~/Videos 2>/dev/null
+mv -v {~/Downloads,~}/*.{mp3,flac,wav,opus} ~/Audio 2>/dev/null
+mv -v {~/Downloads,~}/*.{safetensors,sft,ckpt} ~/.local/src/ComfyUI/unused_models 2>/dev/null
+
+rm -rf {~/Downloads,~}/*.{class,out,part}
