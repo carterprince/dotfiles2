@@ -171,4 +171,6 @@ chuser "git checkout -f main"
 chuser "git config --global user.email 'carteraprince@gmail.com'"
 chuser "git config --global user.name 'Carter Prince'"
 
+chuser 'dconf load / < $HOME/.config/dconf-settings.ini'
+
 reboot # btw, you may need to reboot again for chromium and some things to start properly
