@@ -1,0 +1,4 @@
+#!/bin/bash
+
+tee /tmp/input.txt
+bash -c "cat /tmp/input.txt | $HOME/.local/bin/piper/piper --quiet --model $HOME/Downloads/en_US-amy-low.onnx --output_file /tmp/output.mp3 &>/dev/null && mpv --terminal=no /tmp/output.mp3" &
