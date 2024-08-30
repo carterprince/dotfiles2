@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
 
-mkdir -p $HOME/Music/Vault
-cd $HOME/Music/Vault
+mkdir -p "$HOME/Music/Vault"
+cd "$HOME/Music/Vault"
 spotdl https://open.spotify.com/playlist/3ocO2UJcCOdTdVsIjU6Jac
