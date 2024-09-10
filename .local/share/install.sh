@@ -147,9 +147,9 @@ curl -sL http://sbc.io/hosts/hosts | tee $ROOT/etc/hosts > /dev/null
 chuser "tldr -u"
 
 # flatpak gtk theming
-chuser "flatpak install -y org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark"
-chuser "flatpak override --filesystem=xdg-config/gtk-3.0"
-ch sudo flatpak override --filesystem=xdg-config/gtk-4.0
+# chuser "flatpak install -y org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark"
+# chuser "flatpak override --filesystem=xdg-config/gtk-3.0"
+# ch sudo flatpak override --filesystem=xdg-config/gtk-4.0
 
 # some services
 # dhcpcd, needed for ethernet
