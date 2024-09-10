@@ -166,8 +166,8 @@ chuser "git fetch"
 chuser "git checkout -f main"
 
 # copy init.lua to root
-mkdir -p /mnt/home/root/.config/nvim
-cp /mnt/home/$USERNAME/.config/nvim/init.lua /mnt/home/root/.config/nvim/init.lua
+mkdir -p /mnt/root/.config/nvim
+cp /mnt/home/$USERNAME/.config/nvim/init.lua /mnt/root/.config/nvim/init.lua
 
 chuser "git config --global user.email 'carteraprince@gmail.com'"
 chuser "git config --global user.name 'Carter Prince'"
