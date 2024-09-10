@@ -25,7 +25,7 @@ NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome gnome-tweaks dconf-editor adw-gtk3"
 CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
-GPU=$(lspci | grep -iq "nvidia" && echo "nvidia nvidia-settings cuda")
+GPU=$(lspci | grep -iq "nvidia" && echo "nvidia nvidia-settings cuda" || echo "")
 PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME $GPU" # this is what will be installed
 
 TIMEZONE=$(curl -s http://ipinfo.io/timezone)
