@@ -61,13 +61,13 @@ mkfs.ext4 $ROOT_PARTITION
 mkswap $SWAP_PARTITION
 mkfs.fat -F 32 $EFI_PARTITION
 
-# mount the partitions
-mount $ROOT_PARTITION $ROOT
-mount --mkdir $EFI_PARTITION $ROOT/boot
-swapon $SWAP_PARTITION
-
 # root directory prefix
 ROOT="/mnt"
+
+# mount the partitions
+mount $ROOT_PARTITION $ROOT/
+mount --mkdir $EFI_PARTITION $ROOT/boot
+swapon $SWAP_PARTITION
 
 # uncomment ParallelDownloads = 5 in /etc/pacman.conf
 # just makes the installation a little faster
@@ -174,4 +174,4 @@ chuser "git config --global user.name 'Carter Prince'"
 
 chuser 'dconf load / < $HOME/.config/dconf-settings.ini'
 
-reboot # btw, you may need to reboot again for chromium and some things to start properly
+# reboot # btw, you may need to reboot again for chromium and some things to start properly
