@@ -143,10 +143,6 @@ options root=$ROOT_PARTITION rw" > $ROOT/boot/loader/entries/arch.conf
 # install hosts
 curl -sL http://sbc.io/hosts/hosts | tee $ROOT/etc/hosts > /dev/null
 
-# copy init.lua to root
-mkdir -p /mnt/home/root/.config/nvim
-cp /mnt/home/$USERNAME/.config/nvim/init.lua /mnt/home/root/.config/nvim/init.lua
-
 # update tealdeer
 chuser "tldr -u"
 
@@ -168,6 +164,10 @@ chuser "git init"
 chuser "git remote add origin https://github.com/carterprince/dotfiles2.git"
 chuser "git fetch"
 chuser "git checkout -f main"
+
+# copy init.lua to root
+mkdir -p /mnt/home/root/.config/nvim
+cp /mnt/home/$USERNAME/.config/nvim/init.lua /mnt/home/root/.config/nvim/init.lua
 
 chuser "git config --global user.email 'carteraprince@gmail.com'"
 chuser "git config --global user.name 'Carter Prince'"
