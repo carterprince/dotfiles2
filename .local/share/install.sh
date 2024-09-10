@@ -74,7 +74,7 @@ swapon $SWAP_PARTITION
 sed -i 's/#Pa/Pa/' /etc/pacman.conf
 
 # get fastest mirrors
-reflector --verbose --country US -l 50 -f 5 --sort score --save /etc/pacman.d/mirrorlist
+reflector --verbose --country US -l 50 -f 10 --sort score --save /etc/pacman.d/mirrorlist
 
 # install base system, can take a few minutes depending on your download speed
 pacstrap -K $ROOT base linux linux-firmware sudo base-devel openssl
