@@ -20,13 +20,14 @@ get_input() {
 HOSTNAME=$(get_input "Enter hostname" "desktop")
 
 # define some packages
-MISC="neovim curl git chromium mpv mpv-mpris ttf-monaco-nerd-font-git nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk papirus-icon-theme tealdeer acpi wget python-pipx"
+MISC="neovim curl git chromium mpv mpv-mpris ttf-monaco-nerd-font-git nsxiv xsel nerd-fonts-sf-mono adobe-source-han-sans-jp-fonts adobe-source-han-sans-kr-fonts adobe-source-han-sans-cn-fonts man-db man-pages wikiman dashbinsh imagemagick htop neofetch expac bat gvfs-mtp android-tools fd baobab better-adb-sync-git gimp playerctl reflector cronie jdk-openjdk papirus-icon-theme tealdeer acpi wget tree uv"
+PYTHON="python-matplotlib python-pandas python-lxml python-numpy python-pipx python-scipy python-requests python-pillow python-beautifulsoup4 python-scikit-learn python-plotly"
 NETWORKING="dhcpcd networkmanager"
 LATEX="texlive-latex texlive-latexextra texlive-fontsrecommended"
 GNOME="gnome gnome-tweaks dconf-editor adw-gtk-theme"
 CHIPSET=$(lscpu | grep -iq "amd" && echo "amd" || echo "intel")
-GPU=$(lspci | grep -iq "nvidia" && echo "nvidia nvidia-settings cuda" || echo "")
-PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $GNOME $GPU" # this is what will be installed
+GPU=$(lspci | grep -iq "nvidia" && echo "nvidia nvidia-settings cuda nvidia-utils" || echo "")
+PACKAGES="$NETWORKING $CHIPSET-ucode $MISC $LATEX $PYTHON $GNOME $GPU" # this is what will be installed
 
 TIMEZONE=$(curl -s http://ipinfo.io/timezone)
 
@@ -146,11 +147,6 @@ curl -sL http://sbc.io/hosts/hosts | tee $ROOT/etc/hosts > /dev/null
 # update tealdeer
 chuser "tldr -u"
 
-# flatpak gtk theming
-# chuser "flatpak install -y org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark"
-# chuser "flatpak override --filesystem=xdg-config/gtk-3.0"
-# ch sudo flatpak override --filesystem=xdg-config/gtk-4.0
-
 # some services
 # dhcpcd, needed for ethernet
 ch systemctl enable dhcpcd
@@ -172,6 +168,12 @@ cp /mnt/home/$USERNAME/.config/nvim/init.lua /mnt/root/.config/nvim/init.lua
 chuser "git config --global user.email 'carteraprince@gmail.com'"
 chuser "git config --global user.name 'Carter Prince'"
 
-chuser 'dconf load / < $HOME/.config/dconf-settings.ini'
+# GNOME preferences
+# chuser 'dconf load / < $HOME/.config/dconf-settings.ini'
+
+# flatpak gtk theming
+# chuser "flatpak install -y org.gtk.Gtk3theme.adw-gtk3 org.gtk.Gtk3theme.adw-gtk3-dark"
+# chuser "flatpak override --filesystem=xdg-config/gtk-3.0"
+# ch sudo flatpak override --filesystem=xdg-config/gtk-4.0
 
 # reboot # btw, you may need to reboot again for chromium and some things to start properly
