@@ -28,7 +28,7 @@ nvimconf() {
 }
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
 alias open="xdg-open"
-alias update-mirrors="sudo reflector --verbose --country US -l 50 -f 10 --sort score --save /etc/pacman.d/mirrorlist"
+alias update-mirrors="sudo reflector --verbose --url https://archlinux.org/mirrors/status/tier/1/json/ --country US --score 10 --sort rate --save /etc/pacman.d/mirrorlist"
 alias dconf-dump="dconf dump / > $HOME/.config/dconf-settings.ini"
 alias dconf-load="dconf load / < $HOME/.config/dconf-settings.ini"
 alias yay="paru"
