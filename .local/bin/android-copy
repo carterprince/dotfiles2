@@ -1,0 +1,4 @@
+#!/bin/bash
+
+adbsync push $HOME/Music/ /sdcard/Music/
+adbsync push $HOME/Books/ /sdcard/Books/
