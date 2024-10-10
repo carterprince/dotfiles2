@@ -10,10 +10,14 @@
 
 PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
 
+# macOS-specific
+export BASH_SILENCE_DEPRECATION_WARNING=1
+export LSCOLORS="ExGxFxdxCxDxDxhbadExEx"
+
 set -o vi
 
 # default flags for utilities
-alias ls='ls --color=auto --hyperlink=auto'
+alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias diff='diff --color=auto --unified'
 alias tree="tree -C"
