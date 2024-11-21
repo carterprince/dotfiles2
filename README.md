@@ -1,8 +1,8 @@
 # dotfiles2
 
-electric boogaloo
-
 This is where I keep my dotfiles.
+
+This is my second attempt (from scratch), where the focus is on making the configuation minimal and functional.
 
 ## Overview
 
@@ -11,9 +11,9 @@ List of software included:
 - Terminal emulator: [GNOME Terminal](https://gitlab.gnome.org/GNOME/gnome-terminal)
 - Text editor: [Neovim](https://neovim.io/)
 - Desktop environment: [GNOME](https://www.gnome.org/)
-- Media player: [Celluloid](https://celluloid-player.github.io/)
-- Shell: [zsh](https://www.zsh.org/)
-- Web browser: [Chromium](https://www.chromium.org/Home/)
+- Media player: [mpv](https://mpv.io)
+- Shell: [Bash](https://tiswww.case.edu/php/chet/bash/bashtop.html)
+- Web browser: [Chromium](https://www.chromium.org/Home/) -- this is subject to change soon
 
 ## Install
 
@@ -21,8 +21,10 @@ List of software included:
 curl -L carterprince.us/dotfiles | sh
 ```
 
+or
+
 ```bash
-cd
+cd ~
 git init
 git remote add origin https://github.com/carterprince/dotfiles2.git
 git fetch
