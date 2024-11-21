@@ -126,3 +126,24 @@ vim.api.nvim_create_autocmd("BufNewFile", {
     vim.cmd("startinsert")
   end
 })
+
+-- Number selected lines with Ctrl-n
+vim.api.nvim_create_user_command('NumberMarkdownList', function()
+    local win = vim.api.nvim_get_current_win()
+    local buf = vim.api.nvim_get_current_buf()
+    local start_line = vim.fn.line("'<")
+    local end_line = vim.fn.line("'>")
+    
+    local lines = vim.api.nvim_buf_get_lines(buf, start_line - 1, end_line, false)
+    
+    for i, line in ipairs(lines) do
+        line = line:gsub("^%s*[%d-*+]+%.?%s*", "")
+        line = line:gsub("^%s*(.-)%s*$", "%1")
+        if line ~= "" then
+            lines[i] = i .. ". " .. line
+        end
+    end
+    
+    vim.api.nvim_buf_set_lines(buf, start_line - 1, end_line, false, lines)
+end, {range = true})
+vim.api.nvim_set_keymap('v', '<C-n>', ':NumberMarkdownList<CR>', {noremap = true, silent = true})

@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Newsboat
-Comment=Newsboat RSS Reader
-Exec=newsboat
-Icon=/home/carter/Pictures/newsboat.svg
-Terminal=true
-Encoding=UTF-8
-StartupNotify=true

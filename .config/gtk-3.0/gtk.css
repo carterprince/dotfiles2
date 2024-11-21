@@ -36,7 +36,7 @@ button.titlebutton.maximize,
 windowcontrols > button.maximize,
 button.titlebutton.maximize:hover:backdrop,
 windowcontrols > button.maximize:hover:backdrop {
-  margin: 0px 5px 0px 5px;
+  margin: 0px 0px 0px 2px;
   background-color: #22cb40;
 }
 button.titlebutton.maximize:hover,
@@ -48,7 +48,7 @@ button.titlebutton.minimize,
 button.titlebutton.minimize:hover:backdrop,
 windowcontrols > button.minimize,
 windowcontrols > button.minimize:hover:backdrop {
-  margin: 0px 0px 0px 5px;
+  margin: 0px 0px 0px 2px;
   background-color: #fdbb2f;
 }
 button.titlebutton.minimize:hover,
