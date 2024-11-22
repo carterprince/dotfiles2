@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Play Library
+Icon=folder-music
+TryExec=mpv
+Exec=sh -c 'mpv --player-operation-mode=pseudo-gui "$HOME/Music"'
+Terminal=false
+Type=Application
