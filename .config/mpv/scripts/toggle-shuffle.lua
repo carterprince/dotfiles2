@@ -1,13 +1,11 @@
--- shuffle-toggle.lua
 local mp = require 'mp'
 
--- Variable to track shuffle state
-local cli_shuffled = mp.get_property_native("shuffle") --  CLI --shuffle
+local cli_shuffled = mp.get_property_native("shuffle")
 local is_shuffled = cli_shuffled
+local initial_check_done = false
 
 local audio_extensions = {mp3 = true, wav = true, flac = true, ogg = true, aac = true, m4a = true}
 
--- Function to check if all files in the playlist are audio files
 local function all_audio_files()
     local playlist_count = mp.get_property_number("playlist-count", 0)
     for i = 0, playlist_count - 1 do
@@ -34,7 +32,6 @@ local function shuffle()
     mp.osd_message('Playlist shuffled')
 end
 
--- Function to toggle between shuffle and unshuffle
 local function toggle_shuffle()
     if is_shuffled then
         unshuffle()
@@ -43,10 +40,13 @@ local function toggle_shuffle()
     end
 end
 
--- Hook to check playlist and shuffle only on MPV start
-if not is_shuffled and all_audio_files() then
-    shuffle()
-end
+mp.register_event("file-loaded", function()
+    if not initial_check_done then
+        if not is_shuffled and all_audio_files() then
+            shuffle()
+        end
+        initial_check_done = true
+    end
+end)
 
--- Bind the toggle function to a key
 mp.add_key_binding(nil, 'toggle-shuffle', toggle_shuffle)
