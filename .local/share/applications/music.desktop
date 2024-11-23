@@ -1,7 +1,0 @@
-[Desktop Entry]
-Name=Play Library
-Icon=folder-music
-TryExec=mpv
-Exec=sh -c 'mpv --shuffle "$HOME/Music"'
-Terminal=false
-Type=Application
