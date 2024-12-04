@@ -25,10 +25,13 @@ alias tree="tree -C"
 # shortcuts and aliases
 alias bin="cd $HOME/.local/bin && ls"
 alias src="cd $HOME/.local/src && ls"
-nvimconf() {
+function nvimconf() {
     nvim $HOME/.config/nvim/init.lua
     sudo mkdir -p /root/.config/nvim
     sudo -v && sudo cp /home/$USER/.config/nvim/init.lua /root/.config/nvim/init.lua
+}
+function caffeine() {
+    sudo systemd-inhibit --what="handle-lid-switch" sleep 3600
 }
 alias odin="ssh -q cap71920@odin.cs.uga.edu"
 alias open="xdg-open"
