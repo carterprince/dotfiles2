@@ -54,7 +54,7 @@ require("lazy").setup({
   },
 })
 
-vim.cmd.colorscheme("vim")
+-- vim.cmd.colorscheme("vim")
 
 -- Clipboard settings
 vim.opt.clipboard:append { "unnamedplus" }
