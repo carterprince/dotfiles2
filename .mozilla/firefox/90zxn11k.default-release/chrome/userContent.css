@@ -1,1 +1,69 @@
 @import "firefox-gnome-theme/userContent.css";
+
+
+/* Various stack exchanges */
+#credential_picker_container,
+#onetrust-consent-sdk {
+    display: none !important;
+}
+
+@-moz-document domain("www.wikipedia.org") {
+    #centralNotice,
+    .overlay-banner {
+        display: none !important;
+    }
+}
+@-moz-document domain("en.wikipedia.org") {
+    #centralNotice,
+    #mp-topbanner,
+    .vector-column-end,
+    .mw-footer-container {
+        display: none !important;
+    }
+}
+
+@-moz-document domain("discord.com") {
+    .animatedContainer_fd6364 { display: none !important; }
+}
+
+@-moz-document domain("github.com") {
+    .dashboard-changelog {
+        display: none !important;
+    }
+}
+
+/* YouTube Shorts and Playables */
+@-moz-document domain("www.youtube.com") {
+    ytd-feed-filter-chip-bar-renderer,
+    ytd-guide-entry-renderer:has(a[title^="Shorts"]),
+    ytd-guide-entry-renderer:has(a[title^="Playables"]),
+    ytd-mini-guide-entry-renderer:has(a[title^="Shorts"]),
+    ytd-mini-guide-entry-renderer:has(a[title^="Playables"]),
+    ytd-reel-shelf-renderer:has(a[href^="/shorts/"]),
+    ytd-reel-shelf-renderer:has(a[href^="/playables/"]),
+    ytd-rich-section-renderer:has(a[href^="/shorts/"]),
+    ytd-rich-section-renderer:has(a[href^="/playables/"]),
+    ytd-video-renderer:has(a[href^="/shorts/"]),
+    ytd-video-renderer:has(a[href^="/playables/"]) {
+        display: none !important;
+    }
+
+    ytd-rich-grid-row,
+    #contents.ytd-rich-grid-row {
+        display: contents !important
+    }
+}
+@-moz-document domain("m.youtube.com") {
+    ytm-pivot-bar-item-renderer:has(.pivot-shorts),
+    ytm-pivot-bar-item-renderer:has(.pivot-playables),
+    ytm-reel-shelf-renderer:has(a[href^="/shorts/"]),
+    ytm-reel-shelf-renderer:has(a[href^="/playables/"]),
+    ytm-rich-section-renderer:has(a[href^="/shorts/"]),
+    ytm-rich-section-renderer:has(a[href^="/playables/"]),
+    ytm-video-renderer:has(a[href^="/shorts/"]),
+    ytm-video-renderer:has(a[href^="/playables/"]),
+    ytm-video-with-context-renderer:has(a[href^="/shorts/"]),
+    ytm-video-with-context-renderer:has(a[href^="/playables/"]) {
+        display: none !important;
+    }
+}

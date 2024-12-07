@@ -39,3 +39,11 @@
 .titlebar-buttonbox, #titlebar {
     height: 10px !important;
 }
+
+#urlbar .search-one-offs:not([hidden]) {
+    display: none !important;
+}
+
+.tab-throbber {
+    display: none !important;
+}

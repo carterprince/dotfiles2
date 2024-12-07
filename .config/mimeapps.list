@@ -1,8 +1,8 @@
 [Default Applications]
-text/html=chromium.desktop;
-x-scheme-handler/ftp=chromium.desktop;
-x-scheme-handler/http=chromium.desktop;
-x-scheme-handler/https=chromium.desktop;
+text/html=firefox.desktop;
+x-scheme-handler/ftp=firefox.desktop;
+x-scheme-handler/http=firefox.desktop;
+x-scheme-handler/https=firefox.desktop;
 
 application/epub=com.github.johnfactotum.Foliate.desktop;
 application/epub+zip=com.github.johnfactotum.Foliate.desktop;
