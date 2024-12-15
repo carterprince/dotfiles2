@@ -1,0 +1,49 @@
+@import "firefox-gnome-theme/userChrome.css";
+
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-close,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-max,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-min,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-restore {
+    width: 17px !important;
+    height: 17px !important;
+}
+
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-close .toolbarbutton-icon,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-max .toolbarbutton-icon,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-restore .toolbarbutton-icon,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-min .toolbarbutton-icon {
+    opacity: 0 !important;
+}
+
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-close {
+    background-color: #ff5f57 !important;
+}
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-max,
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-restore {
+    background-color: #22cb40 !important;
+}
+:root[tabsintitlebar] .titlebar-buttonbox .titlebar-min {
+    background-color: #fdbb2f !important;
+}
+
+:root[tabsintitlebar] .titlebar-buttonbox {
+    gap: 8.2px !important;
+    margin-top: 0px !important;
+    padding-top: 0 !important;
+}
+#titlebar-buttonbox-container, .titlebar-buttonbox-container {
+    margin-top: -6px !important;
+    margin-left: 1px !important;
+    padding-top: 0 !important;
+}
+.titlebar-buttonbox, #titlebar {
+    height: 10px !important;
+}
+
+#urlbar .search-one-offs:not([hidden]) {
+    display: none !important;
+}
+
+.tab-throbber {
+    display: none !important;
+}
