@@ -1,8 +1,9 @@
 [Default Applications]
-text/html=firefox.desktop
+text/html=firefox.desktop;
+application/xhtml+xml=firefox.desktop;
 x-scheme-handler/ftp=firefox.desktop;
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
+x-scheme-handler/http=firefox.desktop;
+x-scheme-handler/https=firefox.desktop;
 application/epub=com.github.johnfactotum.Foliate.desktop;
 application/epub+zip=com.github.johnfactotum.Foliate.desktop;
 application/vnd.ms-excel=libreoffice-calc.desktop;
@@ -218,4 +219,4 @@ image/png=org.gnome.Loupe.desktop;
 image/svg+xml=org.gnome.Loupe.desktop;
 image/tiff=org.gnome.Loupe.desktop;
 image/webp=org.gnome.Loupe.desktop;
-application/xhtml+xml=firefox.desktop
+application/zip=org.gnome.Nautilus.desktop;
