@@ -99,6 +99,7 @@ user_pref("svg.context-properties.content.enabled", true);
 user_pref("toolkit.cosmeticAnimations.enabled", false);
 user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
 user_pref("toolkit.tabbox.switchByScrolling", true);
+user_pref("media.gmp-widevinecdm.enabled", true);
 user_pref("toolkit.telemetry.enabled", false);
 user_pref("toolkit.telemetry.server", "");
 user_pref("toolkit.telemetry.unified", false);
