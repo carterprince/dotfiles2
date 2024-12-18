@@ -10,6 +10,7 @@ user_pref("browser.startup.homepage_override.mstone", "ignore");
 
 // general configuration
 user_pref("app.shield.optoutstudies.enabled", false);
+user_pref("browser.tabs.showAudioPlayingIcon", false);
 user_pref("browser.aboutConfig.showWarning", false);
 user_pref("browser.discovery.enabled", false);
 user_pref("browser.download.autohideButton", false);
@@ -24,6 +25,12 @@ user_pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 user_pref("browser.newtabpage.activity-stream.showWeather", false);
 user_pref("browser.newtabpage.enabled", false);
 user_pref("browser.search.region", "US");
+user_pref("browser.sessionstore.closedTabsFromAllWindows", false);
+user_pref("browser.sessionstore.closedTabsFromClosedWindows", false);
+user_pref("browser.sessionstore.persist_closed_tabs_between_sessions", false);
+user_pref("browser.sessionstore.restore_on_demand", false);
+user_pref("browser.sessionstore.restore_tabs_lazily", false);
+user_pref("browser.sessionstore.resume_from_crash", false);
 user_pref("browser.snippets.enabled", false);
 user_pref("browser.startup.couldRestoreSession.count", -1); 
 user_pref("browser.startup.homepage", "about:newtab");
@@ -35,17 +42,27 @@ user_pref("browser.theme.toolbar-theme", 0);
 user_pref("browser.toolbars.bookmarks.visibility", "never");
 user_pref("browser.uiCustomization.state", "{\"placements\":{\"widget-overflow-fixed-list\":[],\"unified-extensions-area\":[],\"nav-bar\":[\"back-button\",\"forward-button\",\"stop-reload-button\",\"home-button\",\"urlbar-container\",\"ublock0_raymondhill_net-browser-action\",\"unified-extensions-button\",\"downloads-button\"],\"toolbar-menubar\":[\"menubar-items\"],\"TabsToolbar\":[\"tabbrowser-tabs\",\"new-tab-button\",\"alltabs-button\"],\"vertical-tabs\":[],\"PersonalToolbar\":[\"import-button\",\"personal-bookmarks\"]},\"seen\":[\"save-to-pocket-button\",\"developer-button\",\"ublock0_raymondhill_net-browser-action\"],\"dirtyAreaCache\":[\"nav-bar\",\"vertical-tabs\",\"PersonalToolbar\",\"widget-overflow-fixed-list\",\"toolbar-menubar\",\"TabsToolbar\"],\"currentVersion\":20,\"newElementCount\":6}");
 user_pref("browser.uidensity", 0);
+
 user_pref("browser.urlbar.shortcuts.bookmarks", false);
 user_pref("browser.urlbar.shortcuts.history", false);
 user_pref("browser.urlbar.shortcuts.tabs", true);
-user_pref("browser.urlbar.suggest.bookmark", false);
+
+user_pref("browser.urlbar.suggest.bookmark", true);
 user_pref("browser.urlbar.suggest.engines", false);
 user_pref("browser.urlbar.suggest.history", false);
+user_pref("browser.urlbar.suggest.searches", false);
 user_pref("browser.urlbar.suggest.openpage", false);
 user_pref("browser.urlbar.suggest.quicksuggest.sponsored", false);
+user_pref("browser.urlbar.suggest.quicksuggest.nonsponsored", false);
 user_pref("browser.urlbar.suggest.recentsearches", false);
 user_pref("browser.urlbar.suggest.topsites", false);
 user_pref("browser.urlbar.suggest.trending", false);
+
+user_pref("browser.urlbar.autoFill.adaptiveHistory.enabled", true);
+// user_pref("browser.urlbar.autoFill.enabled", false);
+user_pref("browser.urlbar.autoFill", true);
+user_pref("browser.urlbar.autocomplete.enabled", true);
+
 user_pref("datareporting.healthreport.service.enabled", false);
 user_pref("datareporting.healthreport.service.firstRun", false);
 user_pref("datareporting.healthreport.uploadEnabled", false);

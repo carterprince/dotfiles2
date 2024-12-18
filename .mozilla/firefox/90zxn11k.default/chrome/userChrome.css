@@ -44,6 +44,23 @@
     display: none !important;
 }
 
-.tab-throbber {
+/* .tab-throbber { */
+/*     display: none !important; */
+/* } */
+
+.tab-icon-overlay:not([pinned], [sharing], [crashed]):is([soundplaying], [muted]) {
+    visibility: hidden !important;
     display: none !important;
+}
+
+.tab-throbber {
+    visibility: hidden !important;
+    opacity: 0.0 !important;
+}
+
+/* Higher specificity to override the above rule for the favicon */
+.tab-icon-image {
+    visibility: visible !important;
+    opacity: 1.0 !important;
+    display: block !important;
 }
