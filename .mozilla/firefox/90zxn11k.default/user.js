@@ -8,6 +8,14 @@ user_pref("toolkit.telemetry.reportingpolicy.firstRun", false);
 user_pref("browser.feeds.showFirstRunUI", false);
 user_pref("browser.startup.homepage_override.mstone", "ignore");
 
+// widevine
+user_pref("media.gmp-widevinecdm.version", "system-installed");
+user_pref("media.gmp-widevinecdm.visible", true);
+user_pref("media.gmp-widevinecdm.enabled", true);
+user_pref("media.gmp-widevinecdm.autoupdate", false);
+user_pref("media.eme.enabled", true);
+user_pref("media.eme.encrypted-media-encryption-scheme.enabled", true);
+
 // general configuration
 user_pref("app.shield.optoutstudies.enabled", false);
 user_pref("browser.tabs.showAudioPlayingIcon", false);
