@@ -81,7 +81,7 @@ user_pref("extensions.enableScopes", 15);
 user_pref("extensions.pictureinpicture.enable_picture_in_picture_overrides", false);
 user_pref("extensions.pocket.enabled", false);
 user_pref("extensions.recommendations.hideNotice", true);
-user_pref("extensions.webextensions.uuids", "{\"default-theme@mozilla.org\":\"0fd28d62-02d4-4ad0-9fac-91a2b500e37c\",\"uBlock0@raymondhill.net\":\"566d2a52-a776-437f-9623-02a97f44bb02\"}");
+user_pref("extensions.webextensions.uuids", "{\"default-theme@mozilla.org\":\"0fd28d62-02d4-4ad0-9fac-91a2b500e37c\",\"uBlock0@raymondhill.net\":\"566d2a52-a776-437f-9623-02a97f44bb02\",\"{a34e6974-7b0f-46a8-9092-a970cd732422}\":\"a34e6974-7b0f-46a8-9092-a970cd732422\"}");
 user_pref("findbar.highlightAll", true);
 user_pref("findbar.modalHighlight", true);
 user_pref("findbar.modalHighlight", true);
