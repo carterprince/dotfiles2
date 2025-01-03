@@ -8,7 +8,7 @@
 # source secret stuff
 [[ -f $HOME/.credentials ]] && source $HOME/.credentials
 
-PS1="\[\033[38;5;75m\]\w\[\033[00m\] \[\033[00m\]\$ "
+PS1="\[\033[36m\]\w\[\033[00m\] \[\033[00m\]\$ "
 
 # macOS-specific
 export BASH_SILENCE_DEPRECATION_WARNING=1

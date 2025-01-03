@@ -220,3 +220,7 @@ image/svg+xml=org.gnome.Loupe.desktop;
 image/tiff=org.gnome.Loupe.desktop;
 image/webp=org.gnome.Loupe.desktop;
 application/zip=org.gnome.Nautilus.desktop;
+application/vnd.microsoft.portable-executable=wine.desktop
+
+[Added Associations]
+application/vnd.microsoft.portable-executable=wine.desktop;
