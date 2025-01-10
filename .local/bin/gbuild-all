@@ -2,9 +2,21 @@
 
 set -eo pipefail
 
-# These are passed to meson and ninja respectively
-export GBUILD_MESON_ARGS='--prefix=/usr --reconfigure >/dev/null'
-export GBUILD_NINJA_ARGS='--quiet >/dev/null'
+if [ $# -gt 0 ]; then
+    case $1 in
+        --clean)
+            sudo rm -rf ${HOME}/.local/src/GNOME/
+            sudo rm -rf ${HOME}/.local/src/World/
+            export CLEAN=1
+            ;;
+        *)
+            echo "Unrecognized argument $1"
+            exit 1
+            ;;
+    esac
+fi
+
+t1=$(date +%s%N)
 
 # GNOME Core
 gbuild GNOME/gtk
@@ -67,10 +79,13 @@ gbuild GNOME/gnome-maps
 gbuild GNOME/localsearch
 gbuild GNOME/nautilus
 
-
 # non-core packages
 gbuild World/fragments
 gbuild World/chatty
 gbuild TheEvilSkeleton/Refine
 gbuild World/fractal
 gbuild chergert/ptyxis
+
+t2=$(date +%s%N)
+delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+echo -e "$(date) -- Built all in ${delta}s\n" | sudo tee -a /var/log/gbuild.log

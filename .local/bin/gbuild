@@ -2,6 +2,10 @@
 
 sudo /usr/bin/printf ''
 
+log() {
+    echo -e "$(date) -- $@" | sudo tee -a /var/log/gbuild.log
+}
+
 [ -z "$GBUILD_MESON_ARGS" ] && GBUILD_MESON_ARGS="--prefix=/usr --reconfigure"
 [ -z "$GBUILD_NINJA_ARGS" ] && GBUILD_NINJA_ARGS=""
 MESON_CMD="meson setup _build ${GBUILD_MESON_ARGS}"
@@ -10,21 +14,29 @@ NINJA_CMD="sudo ninja install -C _build ${GBUILD_NINJA_ARGS}"
 REPO=$1
 if ! echo $REPO | grep -q '/'; then
     REPO="GNOME/$1"
-    echo "$(date) -- Redirecting $1 to ${REPO}" | sudo tee -a /var/log/gbuild.log
+    log "Redirecting $1 to ${REPO}"
 fi
+shift
 
 sudo touch /var/log/gbuild.log
-echo "$(date) -- Building ${REPO}" | sudo tee -a /var/log/gbuild.log
 
 set -eo pipefail
 
 t1=$(date +%s%N)
 
 cd ${HOME}/.local/src
+
+if [ $# -gt 0 ] && [ $1 = "--clean" ] || [ $CLEAN ]; then
+    log "Cleaning ${HOME}/.local/src/${REPO}"
+    sudo rm -rf ${HOME}/.local/src/${REPO}
+fi
+
 if [ -d ${HOME}/.local/src/${REPO} ]; then
+    log "Updating ${REPO}"
     cd ${REPO}
     git pull --quiet
 else
+    log "Cloning ${REPO}"
     git clone --quiet --depth 1 "https://gitlab.gnome.org/${REPO}" ${REPO}
     cd ${REPO}
 fi
@@ -35,20 +47,54 @@ fi
 if [ ${REPO} = "GNOME/gobject-introspection" ]; then
     if [ -d ./gobject-introspection-tests/.git ]; then
         cd ./gobject-introspection-tests
-        git pull
+        log "Updating GNOME/gobject-introspection-tests"
+        git pull --quiet
     else
+        log "Cloning GNOME/gobject-introspection-tests"
         git clone --quiet --depth 1 "https://gitlab.gnome.org/GNOME/gobject-introspection-tests"
         cd ./gobject-introspection-tests
     fi
-    eval ${MESON_CMD}
-    eval ${NINJA_CMD}
+
+    log "Configuring GNOME/gobject-introspection-tests"
+    if ! sudo bash -c "unbuffer ${MESON_CMD} &> /tmp/gbuild-meson.log"; then
+        t2=$(date +%s%N)
+        delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+        log "Configuration of GNOME/gobject-introspection-tests failed at ${delta}s\n"
+        cat /var/log/gbuild-meson.log
+        exit 1
+    fi
+
+    log "Building GNOME/gobject-introspection-tests"
+    if ! sudo bash -c "unbuffer ${NINJA_CMD} &> /tmp/gbuild-ninja.log"; then
+        t2=$(date +%s%N)
+        delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+        log "Building of GNOME/gobject-introspection-tests failed at ${delta}s\n"
+        cat /var/log/gbuild-ninja.log
+        exit 1
+    fi
+
     cd ..
 fi
 
-eval ${MESON_CMD}
-eval ${NINJA_CMD}
+log "Configuring ${REPO}"
+if ! sudo bash -c "unbuffer ${MESON_CMD} &> /tmp/gbuild-meson.log"; then
+    t2=$(date +%s%N)
+    delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+    log "Configuration of ${REPO} failed at ${delta}s\n"
+    cat /var/log/gbuild-meson.log
+    exit 1
+fi
+
+log "Building ${REPO}"
+if ! sudo bash -c "unbuffer ${NINJA_CMD} &> /tmp/gbuild-ninja.log"; then
+    t2=$(date +%s%N)
+    delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+    log "Building of ${REPO} failed at ${delta}s\n"
+    cat /var/log/gbuild-ninja.log
+    exit 1
+fi
 
 t2=$(date +%s%N)
-
 delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
-echo -e "$(date) -- Built ${REPO} in ${delta}s\n" | sudo tee -a /var/log/gbuild.log
+
+log "Built ${REPO} in ${delta}s\n"
