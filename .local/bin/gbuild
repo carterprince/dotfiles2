@@ -4,7 +4,16 @@ sudo /usr/bin/printf ''
 
 set -exo pipefail
 
-cd $HOME/.local/src
-git clone --depth 1 "https://gitlab.gnome.org/GNOME/$1" && cd ./$1 || cd ./$1 && git pull
+REPO=$1
+
+cd ${HOME}/.local/src
+if [ -d ${HOME}/.local/src/${REPO} ]; then
+    cd ${REPO}
+    git pull
+else
+    git clone --depth 1 "https://gitlab.gnome.org/${REPO}" ${REPO}
+    cd ${REPO}
+fi
+
 meson setup _build --prefix=/usr --reconfigure
 sudo ninja install -C _build

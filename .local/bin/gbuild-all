@@ -1,0 +1,73 @@
+#!/bin/bash
+
+set -exo pipefail
+
+# GNOME Core
+gbuild GNOME/gtk
+gbuild GNOME/gtk-doc
+# gbuild GNOME/libgdata
+gbuild GNOME/GLib
+gbuild GNOME/glib-networking
+gbuild GNOME/gi-docgen
+gbuild GNOME/vala
+gbuild GNOME/libdex
+gbuild GNOME/libmks
+gbuild GNOME/libsoup
+# gbuild GNOME/libxml2
+gbuild GNOME/gvfs
+gbuild GNOME/gcr
+gbuild GNOME/gobject-introspection-tests
+gbuild GNOME/gobject-introspection
+gbuild GNOME/pygobject
+gbuild GNOME/pango
+gbuild GNOME/librsvg
+gbuild GNOME/libhandy
+gbuild GNOME/libshumate
+gbuild GNOME/libgweather
+gbuild GNOME/tinysparql
+gbuild GNOME/libsoup
+gbuild GNOME/vte
+gbuild GNOME/glycin
+gbuild GNOME/gjs
+gbuild GNOME/libpanel
+gbuild GNOME/libadwaita
+gbuild GNOME/adwaita-icon-theme
+gbuild GNOME/gnome-keyring
+gbuild GNOME/gnome-session
+gbuild GNOME/mutter
+gbuild GNOME/gnome-shell
+gbuild GNOME/gdm
+gbuild GNOME/xdg-desktop-portal-gnome
+
+gbuild GNOME/sushi
+gbuild GNOME/loupe
+gbuild GNOME/evince
+gbuild GNOME/polari
+gbuild GNOME/connections
+gbuild GNOME/gnome-settings-daemon
+gbuild GNOME/gnome-shell-extensions
+gbuild GNOME/gnome-control-center
+gbuild GNOME/gnome-online-accounts
+gbuild GNOME/gnome-remote-desktop
+gbuild GNOME/gnome-disk-utility
+gbuild GNOME/gnome-text-editor
+gbuild GNOME/gnome-tweaks
+gbuild GNOME/gnome-software
+gbuild GNOME/gnome-calendar
+gbuild GNOME/gnome-calculator
+gbuild GNOME/gnome-usage
+gbuild GNOME/gnome-boxes
+gbuild GNOME/gnome-music
+gbuild GNOME/gnome-weather
+gbuild GNOME/gnome-maps
+
+gbuild GNOME/localsearch
+gbuild GNOME/nautilus
+
+
+# non-core packages
+gbuild World/fragments
+gbuild World/chatty
+gbuild TheEvilSkeleton/Refine
+gbuild World/fractal
+gbuild chergert/ptyxis
