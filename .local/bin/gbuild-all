@@ -16,6 +16,8 @@ if [ $# -gt 0 ]; then
     esac
 fi
 
+[ -z "$GBUILD_MESON_ARGS" ] && export GBUILD_MESON_ARGS="--prefix=/usr"
+
 t1=$(date +%s%N)
 
 # GNOME Core
@@ -25,10 +27,17 @@ gbuild GNOME/gtk-doc
 gbuild GNOME/GLib
 gbuild GNOME/glib-networking
 gbuild GNOME/gi-docgen
+gbuild GNOME/json-glib
 # gbuild GNOME/vala
 gbuild GNOME/libdex
 gbuild GNOME/libmks
 gbuild GNOME/libsoup
+gbuild GNOME/dconf
+gbuild GNOME/gdk-pixbuf
+gbuild GNOME/gnome-desktop
+gbuild GNOME/gvdb
+gbuild GNOME/gsettings-desktop-schemas
+gbuild GNOME/xdg-user-dirs-gtk
 # gbuild GNOME/libxml2
 gbuild GNOME/gvfs
 gbuild GNOME/gcr
