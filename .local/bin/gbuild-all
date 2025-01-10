@@ -32,6 +32,7 @@ gbuild GNOME/json-glib
 gbuild GNOME/libdex
 gbuild GNOME/libmks
 gbuild GNOME/libsoup
+gbuild jwestman/blueprint-compiler
 gbuild GNOME/dconf
 gbuild GNOME/gdk-pixbuf
 gbuild GNOME/gnome-desktop
