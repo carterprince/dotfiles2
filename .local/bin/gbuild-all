@@ -82,8 +82,8 @@ gbuild GNOME/nautilus
 # non-core packages
 gbuild World/fragments
 gbuild World/chatty
-gbuild TheEvilSkeleton/Refine
 gbuild World/fractal
+gbuild TheEvilSkeleton/Refine
 gbuild chergert/ptyxis
 
 t2=$(date +%s%N)

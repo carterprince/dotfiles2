@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo /usr/bin/printf ''
+sudo rm -rf /tmp/gbuild-ninja.log /tmp/gbuild-meson.log /var/log/gbuild.log
 
 log() {
     echo -e "$(date) -- $@" | sudo tee -a /var/log/gbuild.log
@@ -17,8 +17,6 @@ if ! echo $REPO | grep -q '/'; then
     log "Redirecting $1 to ${REPO}"
 fi
 shift
-
-sudo touch /var/log/gbuild.log
 
 set -eo pipefail
 
@@ -60,7 +58,7 @@ if [ ${REPO} = "GNOME/gobject-introspection" ]; then
         t2=$(date +%s%N)
         delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
         log "Configuration of GNOME/gobject-introspection-tests failed at ${delta}s\n"
-        cat /var/log/gbuild-meson.log
+        cat /tmp/gbuild-meson.log
         exit 1
     fi
 
@@ -69,7 +67,7 @@ if [ ${REPO} = "GNOME/gobject-introspection" ]; then
         t2=$(date +%s%N)
         delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
         log "Building of GNOME/gobject-introspection-tests failed at ${delta}s\n"
-        cat /var/log/gbuild-ninja.log
+        cat /tmp/gbuild-ninja.log
         exit 1
     fi
 
@@ -77,11 +75,11 @@ if [ ${REPO} = "GNOME/gobject-introspection" ]; then
 fi
 
 log "Configuring ${REPO}"
-if ! sudo bash -c "unbuffer ${MESON_CMD} &> /tmp/gbuild-meson.log"; then
+if ! bash -c "unbuffer ${MESON_CMD}" |& sudo tee /tmp/gbuild-meson.log &>/dev/null; then
     t2=$(date +%s%N)
     delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
     log "Configuration of ${REPO} failed at ${delta}s\n"
-    cat /var/log/gbuild-meson.log
+    cat /tmp/gbuild-meson.log
     exit 1
 fi
 
@@ -90,7 +88,7 @@ if ! sudo bash -c "unbuffer ${NINJA_CMD} &> /tmp/gbuild-ninja.log"; then
     t2=$(date +%s%N)
     delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
     log "Building of ${REPO} failed at ${delta}s\n"
-    cat /var/log/gbuild-ninja.log
+    cat /tmp/gbuild-ninja.log
     exit 1
 fi
 
