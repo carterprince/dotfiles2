@@ -1,0 +1,10 @@
+#!/bin/bash
+
+sudo /usr/bin/printf ''
+
+set -exo pipefail
+
+cd $HOME/.local/src
+git clone --depth 1 "https://gitlab.gnome.org/GNOME/$1" && cd ./$1 || cd ./$1 && git pull
+meson setup _build --prefix=/usr --reconfigure
+sudo ninja install -C _build
