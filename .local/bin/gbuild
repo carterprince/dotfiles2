@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sudo /usr/bin/printf ''
 sudo rm -rf /tmp/gbuild-ninja.log /tmp/gbuild-meson.log /var/log/gbuild.log
 
 log() {
@@ -10,6 +11,11 @@ log() {
 [ -z "$GBUILD_NINJA_ARGS" ] && GBUILD_NINJA_ARGS=""
 MESON_CMD="meson setup _build ${GBUILD_MESON_ARGS}"
 NINJA_CMD="sudo ninja install -C _build ${GBUILD_NINJA_ARGS}"
+
+export MAKEFLAGS="-j16"
+export RUSTFLAGS="-Z threads=16"
+export NINJA_JOBS=16
+export MESON_TESTTHREADS=16
 
 REPO=$1
 if ! echo $REPO | grep -q '/'; then
