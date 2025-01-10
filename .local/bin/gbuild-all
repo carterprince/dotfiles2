@@ -1,6 +1,10 @@
 #!/bin/bash
 
-set -exo pipefail
+set -eo pipefail
+
+# These are passed to meson and ninja respectively
+export GBUILD_MESON_ARGS='--prefix=/usr --reconfigure >/dev/null'
+export GBUILD_NINJA_ARGS='--quiet >/dev/null'
 
 # GNOME Core
 gbuild GNOME/gtk
@@ -9,14 +13,13 @@ gbuild GNOME/gtk-doc
 gbuild GNOME/GLib
 gbuild GNOME/glib-networking
 gbuild GNOME/gi-docgen
-gbuild GNOME/vala
+# gbuild GNOME/vala
 gbuild GNOME/libdex
 gbuild GNOME/libmks
 gbuild GNOME/libsoup
 # gbuild GNOME/libxml2
 gbuild GNOME/gvfs
 gbuild GNOME/gcr
-gbuild GNOME/gobject-introspection-tests
 gbuild GNOME/gobject-introspection
 gbuild GNOME/pygobject
 gbuild GNOME/pango

@@ -2,18 +2,53 @@
 
 sudo /usr/bin/printf ''
 
-set -exo pipefail
+[ -z "$GBUILD_MESON_ARGS" ] && GBUILD_MESON_ARGS="--prefix=/usr --reconfigure"
+[ -z "$GBUILD_NINJA_ARGS" ] && GBUILD_NINJA_ARGS=""
+MESON_CMD="meson setup _build ${GBUILD_MESON_ARGS}"
+NINJA_CMD="sudo ninja install -C _build ${GBUILD_NINJA_ARGS}"
 
 REPO=$1
+if ! echo $REPO | grep -q '/'; then
+    REPO="GNOME/$1"
+    echo "$(date) -- Redirecting $1 to ${REPO}" | sudo tee -a /var/log/gbuild.log
+fi
+
+sudo touch /var/log/gbuild.log
+echo "$(date) -- Building ${REPO}" | sudo tee -a /var/log/gbuild.log
+
+set -eo pipefail
+
+t1=$(date +%s%N)
 
 cd ${HOME}/.local/src
 if [ -d ${HOME}/.local/src/${REPO} ]; then
     cd ${REPO}
-    git pull
+    git pull --quiet
 else
-    git clone --depth 1 "https://gitlab.gnome.org/${REPO}" ${REPO}
+    git clone --quiet --depth 1 "https://gitlab.gnome.org/${REPO}" ${REPO}
     cd ${REPO}
 fi
 
-meson setup _build --prefix=/usr --reconfigure
-sudo ninja install -C _build
+# [ -f ./autogen.sh ] && ./autogen.sh
+# [ -f ./configure ] && ./configure
+
+if [ ${REPO} = "GNOME/gobject-introspection" ]; then
+    if [ -d ./gobject-introspection-tests/.git ]; then
+        cd ./gobject-introspection-tests
+        git pull
+    else
+        git clone --quiet --depth 1 "https://gitlab.gnome.org/GNOME/gobject-introspection-tests"
+        cd ./gobject-introspection-tests
+    fi
+    eval ${MESON_CMD}
+    eval ${NINJA_CMD}
+    cd ..
+fi
+
+eval ${MESON_CMD}
+eval ${NINJA_CMD}
+
+t2=$(date +%s%N)
+
+delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+echo -e "$(date) -- Built ${REPO} in ${delta}s\n" | sudo tee -a /var/log/gbuild.log
