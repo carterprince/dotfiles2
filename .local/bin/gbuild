@@ -1,7 +1,7 @@
 #!/bin/bash
 
 sudo /usr/bin/printf ''
-sudo rm -rf /tmp/gbuild-ninja.log /tmp/gbuild-meson.log /var/log/gbuild.log
+sudo rm -rf /tmp/gbuild-ninja.log /tmp/gbuild-meson.log /tmp/gbuild-ninja-install.log
 
 log() {
     echo -e "$(date) -- $@" | sudo tee -a /var/log/gbuild.log
@@ -9,31 +9,70 @@ log() {
 
 [ -z "$GBUILD_MESON_ARGS" ] && GBUILD_MESON_ARGS="--prefix=/usr --reconfigure"
 [ -z "$GBUILD_NINJA_ARGS" ] && GBUILD_NINJA_ARGS=""
+[ -z "$GBUILD_NINJA_INSTALL_ARGS" ] && GBUILD_NINJA_INSTALL_ARGS=""
 MESON_CMD="meson setup _build ${GBUILD_MESON_ARGS}"
-NINJA_CMD="sudo ninja install -C _build ${GBUILD_NINJA_ARGS}"
+NINJA_CMD="ninja -C _build ${GBUILD_NINJA_ARGS}"
+NINJA_INSTALL_CMD="sudo ninja install -C _build ${GBUILD_NINJA_INSTALL_ARGS}"
 
 export MAKEFLAGS="-j16"
 export RUSTFLAGS="-Z threads=16"
 export NINJA_JOBS=16
 export MESON_TESTTHREADS=16
 
-REPO=$1
-if ! echo $REPO | grep -q '/'; then
-    REPO="GNOME/$1"
-    log "Redirecting $1 to ${REPO}"
+clean() {
+    log "Cleaning $1"
+    sudo rm -rf $1
+}
+
+if [ -z "$CLEAN" ]; then
+    if echo "$@" | grep -q "\-\-clean"; then
+        CLEAN=1
+    else
+        CLEAN=0
+    fi
 fi
-shift
+
+while [ $# -gt 1 ]; do
+    while [ $1 = "--clean" ]; do
+        shift
+    done
+
+    CLEAN=${CLEAN} gbuild $1
+    shift
+done
+
+
+[ $1 = "--clean" ] && exit 0
+
+if ! echo "$1" | grep -q 'http'; then
+    if ! echo "$1" | grep -q '/'; then
+        REPO="GNOME/$1"
+    else
+        REPO="$1"
+    fi
+    REPO_URL_GITHUB="https://github.com/$REPO"
+    REPO_URL_GNOME="https://gitlab.gnome.org/$REPO"
+    REPO_URL_FREEDESKTOP="https://gitlab.freedesktop.org/$REPO"
+else
+    REPO_URL="$1"
+    REPO=$(echo "${REPO_URL}" | sed 's,/*$,,g' | rev | cut -d'/' -f1-2 | rev)
+fi
 
 set -eo pipefail
 
 t1=$(date +%s%N)
 
+[ $CLEAN = 1 ] && clean $HOME/.local/src/${REPO}
+
 cd ${HOME}/.local/src
 
-if [ $# -gt 0 ] && [ $1 = "--clean" ] || [ $CLEAN ]; then
-    log "Cleaning ${HOME}/.local/src/${REPO}"
-    sudo rm -rf ${HOME}/.local/src/${REPO}
-fi
+clone() {
+    [ -n "${REPO_URL}" ] && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} 2>/dev/null && return || true
+    git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} 2>/dev/null && return || true
+    git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} 2>/dev/null && return || true
+    git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} 2>/dev/null && return || true
+    echo "Could not find the repo" && exit 1
+}
 
 if [ -d ${HOME}/.local/src/${REPO} ]; then
     log "Updating ${REPO}"
@@ -41,12 +80,9 @@ if [ -d ${HOME}/.local/src/${REPO} ]; then
     git pull --quiet
 else
     log "Cloning ${REPO}"
-    git clone --quiet --depth 1 "https://gitlab.gnome.org/${REPO}" ${REPO}
+    clone
     cd ${REPO}
 fi
-
-# [ -f ./autogen.sh ] && ./autogen.sh
-# [ -f ./configure ] && ./configure
 
 if [ ${REPO} = "GNOME/gobject-introspection" ]; then
     if [ -d ./gobject-introspection-tests/.git ]; then
@@ -80,6 +116,15 @@ if [ ${REPO} = "GNOME/gobject-introspection" ]; then
     cd ..
 fi
 
+if ! ls -1 . | grep -q "meson"; then
+    log "gbuild can only build projects meson but ${REPO} doesn't appear to support building with meson."
+    if ls -1 . | grep -q "README"; then
+        filename=$(ls -1 . | grep "README" | head -1)
+        log "Check \e]8;;file:///${HOME}/.local/src/${REPO}/${filename}\e\\${REPO}/${filename}\e]8;;\e\\ for build instructions.\n"
+    fi
+    exit 1
+fi
+
 log "Configuring ${REPO}"
 if ! bash -c "unbuffer ${MESON_CMD}" |& sudo tee /tmp/gbuild-meson.log &>/dev/null; then
     t2=$(date +%s%N)
@@ -90,7 +135,7 @@ if ! bash -c "unbuffer ${MESON_CMD}" |& sudo tee /tmp/gbuild-meson.log &>/dev/nu
 fi
 
 log "Building ${REPO}"
-if ! sudo bash -c "unbuffer ${NINJA_CMD} &> /tmp/gbuild-ninja.log"; then
+if ! bash -c "unbuffer ${NINJA_CMD}" |& sudo tee /tmp/gbuild-meson.log &>/dev/null; then
     t2=$(date +%s%N)
     delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
     log "Building of ${REPO} failed at ${delta}s\n"
@@ -98,7 +143,16 @@ if ! sudo bash -c "unbuffer ${NINJA_CMD} &> /tmp/gbuild-ninja.log"; then
     exit 1
 fi
 
+log "Installing ${REPO}"
+if ! sudo bash -c "unbuffer ${NINJA_INSTALL_CMD} &> /tmp/gbuild-ninja-install.log"; then
+    t2=$(date +%s%N)
+    delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
+    log "Installation of ${REPO} failed at ${delta}s\n"
+    cat /tmp/gbuild-ninja-install.log
+    exit 1
+fi
+
 t2=$(date +%s%N)
 delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
 
-log "Built ${REPO} in ${delta}s\n"
+log "Finished ${REPO} in ${delta}s\n"
