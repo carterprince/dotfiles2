@@ -2,6 +2,11 @@
 # ~/.profile
 #
 
+if [ $(uname -m) = "aarch64" ]; then
+    sudo cpupower frequency-set -u 2.0Ghz && echo "Set frequency to 2.0Ghz" || echo "Setting frequency failed"
+    echo 2000 | sudo tee /sys/class/backlight/backlight/brightness && echo "Set brightness" || echo "Setting brightness failed"
+fi
+
 export PATH="$PATH:$HOME/.local/bin"
 
 # General variables
