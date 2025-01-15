@@ -8,7 +8,7 @@ log() {
 }
 
 check_url() {
-    curl -s -o /dev/null --fail "$1"
+    curl -s -o /dev/null -w "%{http_code}" "$1" | grep -q "200"
 }
 
 [ -z "$GBUILD_MESON_ARGS" ] && GBUILD_MESON_ARGS="--prefix=/usr --reconfigure"
@@ -46,6 +46,7 @@ while [ $# -gt 1 ]; do
 done
 
 [ $# -eq 0 ] && exit 0
+[ "$1" = "--clean" ] && exit 0
 
 if ! echo "$1" | grep -q 'http:'; then
     if ! echo "$1" | grep -q '/'; then
@@ -70,10 +71,11 @@ t1=$(date +%s%N)
 cd ${HOME}/.local/src
 
 clone() {
-    [ -n "${REPO_URL}" ] && check_url "${REPO_URL}" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} && return 0 || true
-    check_url "${REPO_URL_GITHUB}" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} && return 0 || true
-    check_url "${REPO_URL_GNOME}" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} && return 0 || true
-    check_url "${REPO_URL_FREEDESKTOP}" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} || echo "Couldn't clone the repo." && false
+    [ -n "${REPO_URL}" ] && check_url "${REPO_URL}" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} || true
+    check_url "${REPO_URL_GNOME}" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} || true
+    check_url "${REPO_URL_FREEDESKTOP}" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} || true
+    check_url "${REPO_URL_GITHUB}" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} || true
+    echo "Couldn't clone the repo." && false
 }
 
 if [ -d ${HOME}/.local/src/${REPO} ]; then
