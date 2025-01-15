@@ -20,11 +20,14 @@ fi
 
 t1=$(date +%s%N)
 
+gbuild pwithnall/uhttpmock
+
 # GNOME Core
 gbuild GNOME/gtk
 gbuild GNOME/gtk-doc
-# gbuild GNOME/libgdata
+gbuild GNOME/libgdata
 gbuild GNOME/GLib
+gbuild GNOME/gobject-introspection
 gbuild GNOME/glib-networking
 gbuild GNOME/gi-docgen
 gbuild GNOME/json-glib
@@ -42,7 +45,6 @@ gbuild GNOME/gsettings-desktop-schemas
 # gbuild GNOME/libxml2
 gbuild GNOME/gvfs
 gbuild GNOME/gcr
-gbuild GNOME/gobject-introspection
 gbuild GNOME/pygobject
 gbuild GNOME/pango
 gbuild GNOME/librsvg
