@@ -20,51 +20,69 @@ fi
 
 t1=$(date +%s%N)
 
-gbuild pwithnall/uhttpmock
+N=0
+while read line; do
+    echo $N
+    echo $line
+    if [ $N -le 8 ]; then
+        {
+            N=$((N + 1)) && gbuild $line && N=$((N - 1))
+        } &
+    else
+        sleep 1
+    fi
+done << EOF
+pwithnall/uhttpmock
+gtk
+gtk-doc
+GLib
+gobject-introspection
+libgdata
+glib-networking
+gi-docgen
+json-glib
+librsvg
+libdex
+libmks
+libsoup
+jwestman/blueprint-compiler
+dconf
+gdk-pixbuf
+gnome-desktop
+gvdb
+gsettings-desktop-schemas
+gvfs
+gcr
+pygobject
+pango
+librsvg
+libhandy
+libshumate
+libgweather
+tinysparql
+libsoup
+vte
+glycin
+gjs
+libpanel
+libadwaita
+adwaita-icon-theme
+gnome-keyring
+gnome-session
+mutter
+gnome-shell
+gdm
+xdg-desktop-portal-gnome
+EOF
+
+wait
+
+exit 0
 
 # GNOME Core
-gbuild GNOME/gtk
-gbuild GNOME/gtk-doc
-gbuild GNOME/libgdata
-gbuild GNOME/GLib
-gbuild GNOME/gobject-introspection
-gbuild GNOME/glib-networking
-gbuild GNOME/gi-docgen
-gbuild GNOME/json-glib
 # gbuild GNOME/vala
-gbuild GNOME/libdex
-gbuild GNOME/libmks
-gbuild GNOME/libsoup
-gbuild jwestman/blueprint-compiler
-gbuild GNOME/dconf
-gbuild GNOME/gdk-pixbuf
-gbuild GNOME/gnome-desktop
-gbuild GNOME/gvdb
-gbuild GNOME/gsettings-desktop-schemas
 # gbuild GNOME/xdg-user-dirs-gtk
 # gbuild GNOME/libxml2
-gbuild GNOME/gvfs
-gbuild GNOME/gcr
-gbuild GNOME/pygobject
-gbuild GNOME/pango
-gbuild GNOME/librsvg
-gbuild GNOME/libhandy
-gbuild GNOME/libshumate
-gbuild GNOME/libgweather
-gbuild GNOME/tinysparql
-gbuild GNOME/libsoup
-gbuild GNOME/vte
-gbuild GNOME/glycin
-gbuild GNOME/gjs
-gbuild GNOME/libpanel
-gbuild GNOME/libadwaita
-gbuild GNOME/adwaita-icon-theme
-gbuild GNOME/gnome-keyring
-gbuild GNOME/gnome-session
-gbuild GNOME/mutter
-gbuild GNOME/gnome-shell
-gbuild GNOME/gdm
-gbuild GNOME/xdg-desktop-portal-gnome
 
 gbuild GNOME/sushi
 gbuild GNOME/loupe

@@ -71,10 +71,10 @@ t1=$(date +%s%N)
 cd ${HOME}/.local/src
 
 clone() {
-    [ -n "${REPO_URL}" ] && check_url "${REPO_URL}" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} || true
-    check_url "${REPO_URL_GNOME}" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} || true
-    check_url "${REPO_URL_FREEDESKTOP}" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} || true
-    check_url "${REPO_URL_GITHUB}" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} || true
+    [ -n "${REPO_URL}" ] && check_url "${REPO_URL}" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} && return 0 || rm -rf $HOME/.local/src/${REPO}
+    check_url "${REPO_URL_GNOME}" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} && return 0 || rm -rf $HOME/.local/src/${REPO}
+    check_url "${REPO_URL_FREEDESKTOP}" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} && return 0 || rm -rf $HOME/.local/src/${REPO}
+    check_url "${REPO_URL_GITHUB}" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} && return 0 || rm -rf $HOME/.local/src/${REPO}
     echo "Couldn't clone the repo." && false
 }
 
