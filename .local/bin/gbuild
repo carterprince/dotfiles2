@@ -41,10 +41,9 @@ while [ $# -gt 1 ]; do
     shift
 done
 
+[ $# -eq 0 ] && exit 0
 
-[ $1 = "--clean" ] && exit 0
-
-if ! echo "$1" | grep -q 'http'; then
+if ! echo "$1" | grep -q 'http:'; then
     if ! echo "$1" | grep -q '/'; then
         REPO="GNOME/$1"
     else
@@ -67,11 +66,11 @@ t1=$(date +%s%N)
 cd ${HOME}/.local/src
 
 clone() {
-    [ -n "${REPO_URL}" ] && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} 2>/dev/null && return || true
-    git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} 2>/dev/null && return || true
-    git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} 2>/dev/null && return || true
-    git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} 2>/dev/null && return || true
-    echo "Could not find the repo" && exit 1
+    [ -n "${REPO_URL}" ] && curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} && return || true
+    curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL_GITHUB}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} && return || true
+    curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL_GNOME}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} && return || true
+    curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL_FREEDESKTOP}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} && return || true
+    echo "Couldn't clone the repo." && exit 1
 }
 
 if [ -d ${HOME}/.local/src/${REPO} ]; then
