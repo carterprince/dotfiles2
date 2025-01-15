@@ -7,6 +7,10 @@ log() {
     echo -e "$(date) -- $@" | sudo tee -a /var/log/gbuild.log
 }
 
+check_url() {
+    curl -s -o /dev/null --fail "$1"
+}
+
 [ -z "$GBUILD_MESON_ARGS" ] && GBUILD_MESON_ARGS="--prefix=/usr --reconfigure"
 [ -z "$GBUILD_NINJA_ARGS" ] && GBUILD_NINJA_ARGS=""
 [ -z "$GBUILD_NINJA_INSTALL_ARGS" ] && GBUILD_NINJA_INSTALL_ARGS=""
@@ -25,7 +29,7 @@ clean() {
 }
 
 if [ -z "$CLEAN" ]; then
-    if echo "$@" | grep -q "\-\-clean"; then
+    if echo "$@" | grep -q "clean"; then
         CLEAN=1
     else
         CLEAN=0
@@ -66,11 +70,10 @@ t1=$(date +%s%N)
 cd ${HOME}/.local/src
 
 clone() {
-    [ -n "${REPO_URL}" ] && curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} && return || true
-    curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL_GITHUB}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} && return || true
-    curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL_GNOME}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} && return || true
-    curl -s -I -o /dev/null -w "%{http_code}" "${REPO_URL_FREEDESKTOP}" | grep -q "200" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} && return || true
-    echo "Couldn't clone the repo." && exit 1
+    [ -n "${REPO_URL}" ] && check_url "${REPO_URL}" && git clone --quiet --depth 1 "${REPO_URL}" ${REPO} && return 0 || true
+    check_url "${REPO_URL_GITHUB}" && git clone --quiet --depth 1 "${REPO_URL_GITHUB}" ${REPO} && return 0 || true
+    check_url "${REPO_URL_GNOME}" && git clone --quiet --depth 1 "${REPO_URL_GNOME}" ${REPO} && return 0 || true
+    check_url "${REPO_URL_FREEDESKTOP}" && git clone --quiet --depth 1 "${REPO_URL_FREEDESKTOP}" ${REPO} || echo "Couldn't clone the repo." && false
 }
 
 if [ -d ${HOME}/.local/src/${REPO} ]; then
@@ -134,7 +137,7 @@ if ! bash -c "unbuffer ${MESON_CMD}" |& sudo tee /tmp/gbuild-meson.log &>/dev/nu
 fi
 
 log "Building ${REPO}"
-if ! bash -c "unbuffer ${NINJA_CMD}" |& sudo tee /tmp/gbuild-meson.log &>/dev/null; then
+if ! bash -c "unbuffer ${NINJA_CMD}" |& sudo tee /tmp/gbuild-ninja.log &>/dev/null; then
     t2=$(date +%s%N)
     delta=$(echo "scale=4;($t2-$t1)/1000000000.0" | bc)
     log "Building of ${REPO} failed at ${delta}s\n"
