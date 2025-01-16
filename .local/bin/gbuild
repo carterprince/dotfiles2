@@ -78,7 +78,7 @@ clone() {
     echo "Couldn't clone the repo." && false
 }
 
-if [ -d ${HOME}/.local/src/${REPO} ]; then
+if [ -d ${HOME}/.local/src/${REPO}/.git ]; then
     log "Updating ${REPO}"
     cd ${REPO}
     git pull --quiet

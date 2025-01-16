@@ -23,6 +23,7 @@ export MOZ_PROFILE="$HOME/.mozilla/firefox/90zxn11k.default"
 export MAKEFLAGS="-j8"
 export NINJA_JOBS=8
 export MESON_TESTTHREADS=8
+export CARGO_BUILD_JOBS=8
 
 # Manpages
 export MANPAGER="less -R -M --use-color -Dd+Y -Du+W -DPkY +Gg"
