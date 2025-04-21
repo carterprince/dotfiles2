@@ -1,3 +1,6 @@
+-- Init.lua with improved organization and requested features
+
+-- Install lazy.nvim if not already installed
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -11,17 +14,54 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Set leader key
-vim.g.mapleader = ","
+-- Helper function for key mappings
+local function map(mode, lhs, rhs, opts)
+    local options = { noremap = true, silent = true }
+    if opts then options = vim.tbl_extend("force", options, opts) end
+    vim.keymap.set(mode, lhs, rhs, options)
+end
 
+-- Basic settings
+vim.g.mapleader = ","
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
+vim.opt.synmaxcol = 10000
 
--- optionally enable 24-bit colour
--- vim.opt.termguicolors = true
-vim.opt.synmaxcol = 0
+-- Clipboard settings
+vim.opt.clipboard:append { "unnamedplus" }
+vim.opt.shortmess:append("A")
 
+-- Editor settings
+vim.opt.number = true
+vim.opt.expandtab = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+vim.opt.conceallevel = 3
+vim.opt.hidden = true
+
+-- Visual and Search Improvements
+vim.opt.relativenumber = false  -- Easier navigation with relative line numbers
+vim.opt.cursorline = true       -- Highlight current line
+vim.opt.scrolloff = 8           -- Keep context when scrolling
+vim.opt.signcolumn = "yes"      -- Always show the sign column
+vim.opt.ignorecase = true       -- Case insensitive search
+vim.opt.smartcase = true        -- Unless you type an uppercase character
+
+-- Swap and undo settings
+vim.opt.swapfile = false
+vim.opt.autoread = true
+vim.opt.undofile = true
+vim.opt.foldenable = false
+vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undo/"
+
+-- Mouse configuration
+vim.opt.mouse = "a"  -- Enable mouse in all modes
+vim.opt.mousemodel = "popup_setpos"  -- Right-click opens context menu
+
+-- Plugin setup
 require("lazy").setup({
+    -- File explorer
     {
         "nvim-tree/nvim-tree.lua",
         version = "*",
@@ -45,67 +85,104 @@ require("lazy").setup({
             }
         end,
     },
-  {
-      "nvim-treesitter/nvim-treesitter",
-      build = ":TSUpdate"
-  },
-  {
-      "tpope/vim-commentary"
-  },
+    
+    -- Treesitter for better syntax highlighting
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function()
+            require("nvim-treesitter.configs").setup({
+                ensure_installed = { "lua", "vim", "markdown", "bash" },
+                highlight = {
+                    enable = true,
+                },
+            })
+            
+        end,
+    },
+    
+    -- Commentary plugin
+    {
+        "tpope/vim-commentary"
+    },
+    
+    -- Fuzzy finder
+    {
+        'nvim-telescope/telescope.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        keys = {
+            { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+            { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+            { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+        },
+    },
+    
+    -- Status line
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = true,
+    },
+
+
+    {
+      "folke/tokyonight.nvim",
+      config = function()
+        require("tokyonight").setup({
+          style = "night", -- The darkest variant
+          transparent = true, -- Uses terminal background
+          terminal_colors = true,
+          styles = {
+            comments = { italic = true },
+            keywords = { italic = false },
+            functions = {},
+            variables = {}
+          }
+        })
+        vim.cmd.colorscheme("tokyonight")
+      end
+    }
 })
 
-vim.cmd.colorscheme("vim")
+-- Key mappings (using the helper function for new mappings)
+map("!", "<C-h>", "<C-w>")
+map("n", "L", "ciw")
+map("n", "<BS>", "<C-o>")
+map("n", "K", ":nohlsearch<CR><Esc>")
+map("n", "<C-c>", ":Commentary<CR><Esc>")
+map("v", "<C-c>", ":Commentary<CR><Esc>")
 
--- Clipboard settings
-vim.opt.clipboard:append { "unnamedplus" }
-vim.opt.shortmess:append("A")
+-- NvimTree mappings
+map("n", "<C-n>", ":NvimTreeFindFileToggle %:p:h<CR><Esc>")
+map("n", "<C-h>", ":NvimTreeOpen %:p:h<CR><Esc>")
+map("n", "<C-l>", ":NvimTreeClose<CR><Esc>")
 
--- Editor settings
-vim.opt.number = true
-vim.opt.expandtab = true
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.conceallevel = 3
-vim.opt.hidden = true
+map("n", "W", "viwo<Esc>~h")
+map("n", "M", ":!run %<CR>")
+map("n", "<leader>q", ":q!<CR>")
+map("n", "<leader>w", ":w!<CR>")
+map("n", "gx", ":!xdg-open <C-R><C-A><CR><Esc>")
+map("n", "0", "^")
 
--- Swap and undo settings
-vim.opt.swapfile = false
-vim.opt.autoread = true
-vim.opt.undofile = true
-vim.opt.foldenable = false
-vim.opt.undodir = os.getenv("HOME") .. "/.config/nvim/undo/"
+-- Remember cursor position when reopening files
+vim.api.nvim_create_autocmd("BufReadPost", {
+    pattern = "*",
+    callback = function()
+        if vim.fn.line("'\"") > 0 and vim.fn.line("'\"") <= vim.fn.line("$") then
+            vim.fn.setpos(".", vim.fn.getpos("'\""))
+            vim.cmd("normal! zv")  -- Open fold if cursor is inside one
+        end
+    end,
+})
 
--- Key mappings
-vim.api.nvim_set_keymap("!", "<C-h>", "<C-w>", { noremap = true })
-vim.api.nvim_set_keymap("n", "L", "ciw", { noremap = true })
-vim.api.nvim_set_keymap("n", "<BS>", "<C-o>", { noremap = true })
-vim.api.nvim_set_keymap("n", "K", ":nohlsearch<CR><Esc>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<C-c>", ":Commentary<CR><Esc>", { noremap = true })
-vim.api.nvim_set_keymap("v", "<C-c>", ":Commentary<CR><Esc>", { noremap = true })
-
--- NvimTree
-vim.api.nvim_set_keymap("n", "<C-n>", ":NvimTreeFindFileToggle %:p:h<CR><Esc>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<C-h>", ":NvimTreeOpen %:p:h<CR><Esc>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<C-l>", ":NvimTreeClose<CR><Esc>", { noremap = true })
-
-vim.api.nvim_set_keymap("n", "W", "viwo<Esc>~h", { noremap = true })
-vim.api.nvim_set_keymap("n", "M", ":!run %<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>q", ":q!<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>w", ":w!<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "gx", ":!xdg-open <C-R><C-A><CR><Esc>", { noremap = true })
-vim.api.nvim_set_keymap("n", "0", "^", { noremap = true })
-
-vim.api.nvim_set_keymap('', '<C-LeftMouse>', '<nop>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('!', '<C-LeftMouse>', '<nop>', { noremap = true, silent = true })
-
+-- NvimTree expand all on open
 local api = require("nvim-tree.api")
 local Event = api.events.Event
 api.events.subscribe(Event.TreeOpen, function()
     api.tree.expand_all()
 end)
 
--- thanks, claude
+-- Markdown template for new posts
 vim.api.nvim_create_augroup("MdTemplateAutoCmd", { clear = true })
 vim.api.nvim_create_autocmd("BufNewFile", {
   group = "MdTemplateAutoCmd",
@@ -146,4 +223,4 @@ vim.api.nvim_create_user_command('NumberMarkdownList', function()
     
     vim.api.nvim_buf_set_lines(buf, start_line - 1, end_line, false, lines)
 end, {range = true})
-vim.api.nvim_set_keymap('v', '<C-n>', ':NumberMarkdownList<CR>', {noremap = true, silent = true})
+map('v', '<C-n>', ':NumberMarkdownList<CR>')
