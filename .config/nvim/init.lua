@@ -42,11 +42,11 @@ vim.opt.hidden = true
 
 -- Visual and Search Improvements
 vim.opt.relativenumber = false  -- Easier navigation with relative line numbers
-vim.opt.cursorline = true       -- Highlight current line
 vim.opt.scrolloff = 8           -- Keep context when scrolling
 vim.opt.signcolumn = "yes"      -- Always show the sign column
 vim.opt.ignorecase = true       -- Case insensitive search
 vim.opt.smartcase = true        -- Unless you type an uppercase character
+-- vim.opt.cursorline = true       -- Highlight current line
 
 -- Swap and undo settings
 vim.opt.swapfile = false
